@@ -49,6 +49,7 @@ const Ul = styled.ul`
 const Li = styled.li`
   padding: 0 10px;
   font-size: 18px;
+  font-weight: bold;
   color: ${(props) => (props.active ? 'black' : 'wheat')};
 `;
 
