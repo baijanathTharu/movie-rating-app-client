@@ -1,3 +1,4 @@
+// import { withRouter } from 'react-router';
 import { Footer } from './footer.component';
 import { Header } from './header.component';
 
@@ -10,3 +11,5 @@ export const Layout = ({ children }) => {
     </>
   );
 };
+
+// export const Layout = LayoutComponent;

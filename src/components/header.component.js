@@ -1,6 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 const navLinks = [
+  {
+    path: '/',
+    name: 'Home',
+  },
   {
     path: '/about',
     name: 'About',
@@ -15,14 +20,50 @@ const navLinks = [
   },
 ];
 
-export const Header = () => {
+const Nav = styled.nav`
+  background-color: orangered;
+  color: wheat;
+  min-height: 7vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const H1 = styled.h1`
+  font-weight: bold;
+  font-size: 20px;
+  color: wheat;
+`;
+
+const Ul = styled.ul`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style-type: none;
+`;
+
+const Li = styled.li`
+  padding: 0 10px;
+  font-size: 18px;
+  color: ${(props) => (props.active ? 'black' : 'wheat')};
+`;
+
+export const Header = (props) => {
+  const history = useHistory();
+
   const navList = navLinks.map(({ path, name }, idx) => {
     return (
-      
+      <Link style={{ textDecoration: 'none' }} to={path} key={idx}>
+        <Li active={history.location.pathname === path}>{name}</Li>
+      </Link>
     );
   });
 
+  console.log('history: ', history);
   return (
-  
+    <Nav>
+      <H1>Movie Rating App</H1>
+      <Ul>{navList}</Ul>
+    </Nav>
   );
 };
