@@ -1,15 +1,17 @@
-// import { withRouter } from 'react-router';
-import { Footer } from './footer.component';
-import { Header } from './header.component';
+import { useState } from 'react';
+import { Footer } from '../components';
+import { Header } from '../components';
+import { SideDrawer } from '../components';
 
 export const Layout = ({ children }) => {
+  const [drawer, setDrawer] = useState({ isVisible: false });
+
   return (
     <>
-      <Header />
+      <SideDrawer drawer={drawer} />
+      <Header toggleDrawer={setDrawer} drawer={drawer} />
       {children}
       <Footer />
     </>
   );
 };
-
-// export const Layout = LayoutComponent;

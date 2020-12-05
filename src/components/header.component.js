@@ -54,13 +54,12 @@ const Li = styled.li`
 
 const MenuBar = styled.div`
   font-size: 25px;
-  cursor: pointer;
   @media (min-width: 768px) {
     display: none;
   }
 `;
 
-export const Header = (props) => {
+export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
   const history = useHistory();
 
   const navList = navLinks.map(({ path, name }, idx) => {
@@ -71,12 +70,11 @@ export const Header = (props) => {
     );
   });
 
-  console.log('history: ', history);
   return (
     <Nav>
       <H1>Movie Rating App</H1>
       <Ul>{navList}</Ul>
-      <MenuBar>
+      <MenuBar onClick={() => toggleDrawer({ isVisible: !isVisible })}>
         <MdMenu />
       </MenuBar>
     </Nav>
