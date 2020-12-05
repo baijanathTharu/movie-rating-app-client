@@ -1,5 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import { MdMenu } from 'react-icons/md';
 
 const navLinks = [
   {
@@ -40,12 +41,23 @@ const Ul = styled.ul`
   justify-content: space-around;
   align-items: center;
   list-style-type: none;
+  @media (max-width: 767px) {
+    display: none;
+  }
 `;
 
 const Li = styled.li`
   padding: 0 10px;
   font-size: 18px;
   color: ${(props) => (props.active ? 'black' : 'wheat')};
+`;
+
+const MenuBar = styled.div`
+  font-size: 25px;
+  cursor: pointer;
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Header = (props) => {
@@ -64,6 +76,9 @@ export const Header = (props) => {
     <Nav>
       <H1>Movie Rating App</H1>
       <Ul>{navList}</Ul>
+      <MenuBar>
+        <MdMenu />
+      </MenuBar>
     </Nav>
   );
 };
