@@ -1,6 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { MdMenu } from 'react-icons/md';
+import { MdMenu, MdClose } from 'react-icons/md';
 
 const navLinks = [
   {
@@ -22,8 +22,8 @@ const navLinks = [
 ];
 
 const Nav = styled.nav`
-  background-color: orangered;
-  color: wheat;
+  background-color: wheat;
+  color: orangered;
   min-height: 7vh;
   display: flex;
   justify-content: space-around;
@@ -33,7 +33,7 @@ const Nav = styled.nav`
 const H1 = styled.h1`
   font-weight: bold;
   font-size: 20px;
-  color: wheat;
+  color: orangered;
 `;
 
 const Ul = styled.ul`
@@ -50,7 +50,7 @@ const Li = styled.li`
   padding: 0 10px;
   font-size: 18px;
   font-weight: bold;
-  color: ${(props) => (props.active ? 'black' : 'wheat')};
+  color: ${(props) => (props.active ? 'black' : 'orangered')};
 `;
 
 const MenuBar = styled.div`
@@ -76,7 +76,7 @@ export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
       <H1>Movie Rating App</H1>
       <Ul>{navList}</Ul>
       <MenuBar onClick={() => toggleDrawer({ isVisible: !isVisible })}>
-        <MdMenu />
+        {isVisible ? <MdClose /> : <MdMenu />}
       </MenuBar>
     </Nav>
   );
