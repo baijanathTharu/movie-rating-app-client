@@ -22,7 +22,7 @@ const navLinks = [
 ];
 
 const Nav = styled.nav`
-  background-color: orangered;
+  background-color: rgba(0, 0, 0, 0.9);
   color: wheat;
   min-height: 7vh;
   display: flex;
@@ -50,7 +50,7 @@ const Li = styled.li`
   padding: 0 10px;
   font-size: 18px;
   font-weight: bold;
-  color: ${(props) => (props.active ? 'black' : 'wheat')};
+  color: ${(props) => (props.active ? 'orangered' : 'wheat')};
 `;
 
 const MenuBar = styled.div`
