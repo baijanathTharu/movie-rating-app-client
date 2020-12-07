@@ -15,8 +15,14 @@ const HeroContent = styled.div`
   height: 85vh;
   padding: 10px;
   display: grid;
+  grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-items: center;
+
+  @media (max-width: 320px) {
+    padding: 10px 0;
+    grid-gap: 20px;
+  }
 `;
 
 const Div = styled.div`
@@ -74,7 +80,9 @@ export const HomeScreen = () => {
           <P>To find out more</P>
           <Button>REGISTER NOW</Button>
         </Div>
-        <RegisterForm />
+        <Div>
+          <RegisterForm />
+        </Div>
       </HeroContent>
     </Layout>
   );

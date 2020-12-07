@@ -3,3 +3,8 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

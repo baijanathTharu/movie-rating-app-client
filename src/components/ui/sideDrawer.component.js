@@ -5,7 +5,7 @@ const DrawerDiv = styled.div`
   min-height: 100vh;
   background-color: wheat;
   z-index: 1000;
-  position: absolute;
+  position: fixed;
   top: 0;
   display: ${(props) => (props.visible ? 'block' : 'none')};
   width: ${(props) => (props.visible ? '70%' : '0px')};

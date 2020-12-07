@@ -7,9 +7,13 @@ import { BackDrop } from './ui';
 export const Layout = ({ children }) => {
   const [drawer, setDrawer] = useState({ isVisible: false });
 
+  const toggleDrawer = (drawerState) => {
+    setDrawer(drawerState);
+  };
+
   return (
     <>
-      {drawer.isVisible ? <BackDrop toggleDrawer={setDrawer} /> : null}
+      {drawer.isVisible ? <BackDrop toggleDrawer={toggleDrawer} /> : null}
       <SideDrawer drawer={drawer} />
       <Header toggleDrawer={setDrawer} drawer={drawer} />
       {children}
