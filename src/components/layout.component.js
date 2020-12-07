@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Footer } from '../components';
-import { Header } from '../components';
-import { SideDrawer } from '../components';
-import { BackDrop } from '../components';
+import { Footer } from './ui';
+import { Header } from './ui';
+import { SideDrawer } from './ui';
+import { BackDrop } from './ui';
 
 export const Layout = ({ children }) => {
   const [drawer, setDrawer] = useState({ isVisible: false });
