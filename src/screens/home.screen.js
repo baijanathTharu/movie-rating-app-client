@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Layout } from '../components';
-import { RegisterForm } from '../components/authForm';
+import { LoginForm } from '../components/authForm';
 import banner from '../images/movie-rating-app-hero.jpg';
 
 const Hero = styled.div`
@@ -81,7 +81,7 @@ export const HomeScreen = () => {
           <Button>REGISTER NOW</Button>
         </Div>
         <Div>
-          <RegisterForm />
+          <LoginForm />
         </Div>
       </HeroContent>
     </Layout>
