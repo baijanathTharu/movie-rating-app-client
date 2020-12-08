@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Form = styled.form`
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   padding: 10px;
   background-color: lightsalmon;
   border-radius: 10px;
@@ -53,7 +53,9 @@ const Button = styled.button`
 `;
 
 export const RegisterForm = () => {
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -63,15 +65,27 @@ export const RegisterForm = () => {
         <Input type='text' placeholder='username' name='username' />
       </Div>
       <Div>
-        <Label htmlFor='username'>Username</Label>
-        <Input type='text' placeholder='username' name='username' />
+        <Label htmlFor='username'>Email</Label>
+        <Input type='text' placeholder='email' name='email' />
       </Div>
       <Div>
-        <Label htmlFor='username'>Username</Label>
-        <Input type='text' placeholder='username' name='username' />
+        <Label htmlFor='password'>Password</Label>
+        <Input type='password' placeholder='password' name='password' />
       </Div>
       <Div>
-        <Button>Submit</Button>
+        <Label htmlFor='confirm-password'>Confirm Password</Label>
+        <Input
+          type='password'
+          placeholder='confirm password'
+          name='confirm-password'
+        />
+      </Div>
+      <Div>
+        <Label htmlFor='dob'>Date of Birth</Label>
+        <Input type='date' placeholder='dob' name='dob' />
+      </Div>
+      <Div>
+        <Button type='submit'>Submit</Button>
       </Div>
     </Form>
   );

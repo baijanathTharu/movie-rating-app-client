@@ -1,8 +1,13 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 import { Footer } from './ui';
 import { Header } from './ui';
 import { SideDrawer } from './ui';
 import { BackDrop } from './ui';
+
+const ChildrenDiv = styled.div`
+  min-height: 86vh;
+`;
 
 export const Layout = ({ children }) => {
   const [drawer, setDrawer] = useState({ isVisible: false });
@@ -16,7 +21,7 @@ export const Layout = ({ children }) => {
       {drawer.isVisible ? <BackDrop toggleDrawer={toggleDrawer} /> : null}
       <SideDrawer drawer={drawer} />
       <Header toggleDrawer={setDrawer} drawer={drawer} />
-      {children}
+      <ChildrenDiv>{children}</ChildrenDiv>
       <Footer />
     </>
   );

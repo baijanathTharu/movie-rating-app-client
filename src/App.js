@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { HomeScreen } from './screens';
+import { HomeScreen, RegisterScreen } from './screens';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' component={HomeScreen}></Route>
+        <Route path='/register' component={RegisterScreen} />
+        <Route path='/' exact component={HomeScreen} />
       </Switch>
     </BrowserRouter>
   );

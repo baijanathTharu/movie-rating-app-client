@@ -12,8 +12,8 @@ const navLinks = [
     name: 'About',
   },
   {
-    path: '/services',
-    name: 'Services',
+    path: '/register',
+    name: 'Register',
   },
   {
     path: '/contact',

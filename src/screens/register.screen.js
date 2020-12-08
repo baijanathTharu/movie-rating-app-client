@@ -1,7 +1,6 @@
-import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { Layout } from '../components';
-import { LoginForm } from '../components/authForm';
+import { RegisterForm } from '../components/authForm';
 import banner from '../images/movie-rating-app-hero.webp';
 
 const Hero = styled.div`
@@ -33,39 +32,7 @@ const Div = styled.div`
   align-items: center;
 `;
 
-const H2 = styled.h2`
-  color: wheat;
-  font-size: 48px;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0;
-`;
-
-const P = styled.p`
-  font-size: 32px;
-  font-weight: bold;
-  color: wheat;
-  margin: 0 0 10px 0;
-`;
-
-const Button = styled.button`
-  background-color: rgb(152, 39, 209);
-  color: wheat;
-  padding: 10px 20px;
-  font-size: 24px;
-  border: 0;
-  border-radius: 5px;
-  outline: none;
-  :hover {
-    cursor: pointer;
-    color: wheat;
-    background-color: rgb(152, 39, 209, 0.9);
-  }
-`;
-
-export const HomeScreen = () => {
-  const history = useHistory();
-
+export const RegisterScreen = () => {
   return (
     <Layout>
       <Hero
@@ -79,14 +46,7 @@ export const HomeScreen = () => {
       />
       <HeroContent>
         <Div>
-          <H2>Find Quality Movies Here</H2>
-          <P>To find out more</P>
-          <Button onClick={() => history.push('/register')}>
-            REGISTER NOW
-          </Button>
-        </Div>
-        <Div>
-          <LoginForm />
+          <RegisterForm />
         </Div>
       </HeroContent>
     </Layout>
