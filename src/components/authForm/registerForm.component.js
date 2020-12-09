@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { POST } from '../../utils/httpClient';
 
 const Form = styled.form`
   width: 100%;
@@ -53,8 +55,23 @@ const Button = styled.button`
 `;
 
 export const RegisterForm = () => {
-  const handleSubmit = (e) => {
+  const [formState, setFormState] = useState({ data: {}, error: {} });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await POST('/auth/register', formState.data);
+    console.log('res: ', res);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormState((prevState) => {
+      return {
+        data: { ...prevState.data, [name]: value },
+        error: { ...prevState.error },
+      };
+    });
   };
 
   return (
@@ -62,15 +79,30 @@ export const RegisterForm = () => {
       <H3>Register Form</H3>
       <Div>
         <Label htmlFor='username'>Username</Label>
-        <Input type='text' placeholder='username' name='username' />
+        <Input
+          type='text'
+          placeholder='username'
+          name='username'
+          onChange={handleChange}
+        />
       </Div>
       <Div>
         <Label htmlFor='username'>Email</Label>
-        <Input type='text' placeholder='email' name='email' />
+        <Input
+          type='text'
+          placeholder='email'
+          name='email_address'
+          onChange={handleChange}
+        />
       </Div>
       <Div>
         <Label htmlFor='password'>Password</Label>
-        <Input type='password' placeholder='password' name='password' />
+        <Input
+          type='password'
+          placeholder='password'
+          name='password'
+          onChange={handleChange}
+        />
       </Div>
       <Div>
         <Label htmlFor='confirm-password'>Confirm Password</Label>
@@ -78,11 +110,17 @@ export const RegisterForm = () => {
           type='password'
           placeholder='confirm password'
           name='confirm-password'
+          onChange={handleChange}
         />
       </Div>
       <Div>
         <Label htmlFor='dob'>Date of Birth</Label>
-        <Input type='date' placeholder='dob' name='dob' />
+        <Input
+          type='date'
+          placeholder='dob'
+          name='dob'
+          onChange={handleChange}
+        />
       </Div>
       <Div>
         <Button type='submit'>Submit</Button>
