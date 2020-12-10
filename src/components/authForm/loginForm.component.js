@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { POST } from '../../utils/httpClient';
+import { validateForm } from './validateForm';
 
 const Form = styled.form`
   width: 100%;
@@ -61,15 +62,31 @@ const Button = styled.button`
   }
 `;
 
+const ErrorSpan = styled.span`
+  font-size: 12px;
+  color: tomato;
+  background-color: black;
+  margin: 0 10px;
+  padding: 0 10px;
+  display: ${(props) => (props.active ? 'inline-block' : 'none')};
+`;
+
 export const LoginForm = () => {
   const [formState, setFormState] = useState({ data: {}, error: {} });
 
   const handleChange = (e) => {
-    const { name, value, checked } = e.target;
+    let { name, value, checked } = e.target;
+    if (name === 'remember_me') {
+      value = checked;
+    }
     setFormState((prevState) => {
+      const errorObj = { ...prevState.error };
+      !validateForm(name, value)
+        ? delete errorObj[name]
+        : (errorObj[name] = validateForm(name, value));
       return {
         data: { ...prevState.data, [name]: value },
-        error: { ...prevState.error },
+        error: { ...errorObj },
       };
     });
   };
@@ -77,6 +94,7 @@ export const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await POST('/auth/login', formState.data);
+    // TODO:: Error handling
     console.log('login res: ', res);
   };
 
@@ -84,7 +102,13 @@ export const LoginForm = () => {
     <Form onSubmit={handleSubmit}>
       <H3>Please Login Here</H3>
       <Div>
-        <Label htmlFor='username'>Username</Label>
+        <Label htmlFor='username'>
+          Username
+          <ErrorSpan active={formState.error.username}>
+            {formState.error.username}
+          </ErrorSpan>
+        </Label>
+
         <Input
           type='text'
           placeholder='username'
@@ -93,7 +117,13 @@ export const LoginForm = () => {
         />
       </Div>
       <Div>
-        <Label htmlFor='password'>Password</Label>
+        <Label htmlFor='password'>
+          Password{' '}
+          <ErrorSpan active={formState.error.password}>
+            {formState.error.password}
+          </ErrorSpan>
+        </Label>
+
         <Input
           type='password'
           placeholder='password'

@@ -60,6 +60,7 @@ export const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await POST('/auth/register', formState.data);
+    // TODO:: Error handling
     console.log('res: ', res);
   };
 
