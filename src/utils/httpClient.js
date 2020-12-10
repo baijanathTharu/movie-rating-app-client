@@ -5,7 +5,7 @@ const http = axios.create({
   responseType: 'json',
 });
 
-export const POST = async (url, data, configParams = {}) => {
+export const POST = (url, data, configParams = {}) => {
   return http.post(url, data, {
     configParams,
     headers: {

@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { POST } from '../../utils/httpClient';
 
 const Form = styled.form`
   width: 100%;
@@ -60,8 +62,22 @@ const Button = styled.button`
 `;
 
 export const LoginForm = () => {
-  const handleSubmit = (e) => {
+  const [formState, setFormState] = useState({ data: {}, error: {} });
+
+  const handleChange = (e) => {
+    const { name, value, checked } = e.target;
+    setFormState((prevState) => {
+      return {
+        data: { ...prevState.data, [name]: value },
+        error: { ...prevState.error },
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await POST('/auth/login', formState.data);
+    console.log('login res: ', res);
   };
 
   return (
@@ -69,15 +85,25 @@ export const LoginForm = () => {
       <H3>Please Login Here</H3>
       <Div>
         <Label htmlFor='username'>Username</Label>
-        <Input type='text' placeholder='username' name='username' />
+        <Input
+          type='text'
+          placeholder='username'
+          name='username'
+          onChange={handleChange}
+        />
       </Div>
       <Div>
         <Label htmlFor='password'>Password</Label>
-        <Input type='password' placeholder='password' name='password' />
+        <Input
+          type='password'
+          placeholder='password'
+          name='password'
+          onChange={handleChange}
+        />
       </Div>
       <CheckBoxDiv>
         <Label htmlFor='remember_me'>Remember Me</Label>
-        <input type='checkbox' name='remember_me' />
+        <input type='checkbox' name='remember_me' onChange={handleChange} />
       </CheckBoxDiv>
       <Div>
         <Button>Submit</Button>
