@@ -117,6 +117,21 @@ export const LoginForm = () => {
         />
       </Div>
       <Div>
+        <Label htmlFor='email'>
+          Email
+          <ErrorSpan active={formState.error.email}>
+            {formState.error.email}
+          </ErrorSpan>
+        </Label>
+
+        <Input
+          type='text'
+          placeholder='email'
+          name='email'
+          onChange={handleChange}
+        />
+      </Div>
+      <Div>
         <Label htmlFor='password'>
           Password{' '}
           <ErrorSpan active={formState.error.password}>

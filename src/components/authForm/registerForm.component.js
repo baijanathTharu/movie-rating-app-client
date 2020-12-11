@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { POST } from '../../utils/httpClient';
+import { validateForm } from './validateForm';
 
 const Form = styled.form`
   width: 100%;
@@ -54,6 +55,15 @@ const Button = styled.button`
   }
 `;
 
+const ErrorSpan = styled.span`
+  font-size: 12px;
+  color: tomato;
+  background-color: black;
+  margin: 0 10px;
+  padding: 0 10px;
+  display: ${(props) => (props.active ? 'inline-block' : 'none')};
+`;
+
 export const RegisterForm = () => {
   const [formState, setFormState] = useState({ data: {}, error: {} });
 
@@ -68,9 +78,13 @@ export const RegisterForm = () => {
     const { name, value } = e.target;
 
     setFormState((prevState) => {
+      const errorObj = { ...prevState.error };
+      !validateForm(name, value)
+        ? delete errorObj[name]
+        : (errorObj[name] = validateForm(name, value));
       return {
         data: { ...prevState.data, [name]: value },
-        error: { ...prevState.error },
+        error: { ...errorObj },
       };
     });
   };
@@ -79,7 +93,12 @@ export const RegisterForm = () => {
     <Form onSubmit={handleSubmit}>
       <H3>Register Form</H3>
       <Div>
-        <Label htmlFor='username'>Username</Label>
+        <Label htmlFor='username'>
+          Username
+          <ErrorSpan active={formState.error.username}>
+            {formState.error.username}
+          </ErrorSpan>
+        </Label>
         <Input
           type='text'
           placeholder='username'
@@ -88,16 +107,26 @@ export const RegisterForm = () => {
         />
       </Div>
       <Div>
-        <Label htmlFor='username'>Email</Label>
+        <Label htmlFor='username'>
+          Email
+          <ErrorSpan active={formState.error.email}>
+            {formState.error.email}
+          </ErrorSpan>
+        </Label>
         <Input
           type='text'
           placeholder='email'
-          name='email_address'
+          name='email'
           onChange={handleChange}
         />
       </Div>
       <Div>
-        <Label htmlFor='password'>Password</Label>
+        <Label htmlFor='password'>
+          Password
+          <ErrorSpan active={formState.error.password}>
+            {formState.error.password}
+          </ErrorSpan>
+        </Label>
         <Input
           type='password'
           placeholder='password'
@@ -106,7 +135,12 @@ export const RegisterForm = () => {
         />
       </Div>
       <Div>
-        <Label htmlFor='confirm-password'>Confirm Password</Label>
+        <Label htmlFor='confirm-password'>
+          Confirm Password
+          <ErrorSpan active={formState.error['confirm-password']}>
+            {formState.error['confirm-password']}
+          </ErrorSpan>
+        </Label>
         <Input
           type='password'
           placeholder='confirm password'
