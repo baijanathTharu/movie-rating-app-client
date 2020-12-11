@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { POST } from '../../utils/httpClient';
 import { validateForm } from './validateForm';
@@ -50,15 +50,16 @@ const Input = styled.input`
 const Button = styled.button`
   color: wheat;
   font-size: 18px;
-  background-color: black;
+  background-color: ${(props) =>
+    props.disabled ? 'rgba(0,0,0, 0.25)' : 'black'};
   padding: 10px 15px;
   border: 0;
   border-radius: 5px;
   outline: none;
-
   :hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    cursor: pointer;
+    background-color: ${(props) =>
+      props.disabled ? null : 'rgba(0, 0, 0, 0.8)'};
+    cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   }
 `;
 
@@ -72,7 +73,22 @@ const ErrorSpan = styled.span`
 `;
 
 export const LoginForm = () => {
-  const [formState, setFormState] = useState({ data: {}, error: {} });
+  const [formState, setFormState] = useState({
+    data: {},
+    error: {},
+  });
+
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    if (
+      !Object.keys(formState.error).length &&
+      Object.keys(formState.data).length === 3
+    ) {
+      return setIsValid(true);
+    }
+    setIsValid(false);
+  }, [formState.error, formState.data]);
 
   const handleChange = (e) => {
     let { name, value, checked } = e.target;
@@ -84,6 +100,7 @@ export const LoginForm = () => {
       !validateForm(name, value)
         ? delete errorObj[name]
         : (errorObj[name] = validateForm(name, value));
+
       return {
         data: { ...prevState.data, [name]: value },
         error: { ...errorObj },
@@ -151,7 +168,9 @@ export const LoginForm = () => {
         <input type='checkbox' name='remember_me' onChange={handleChange} />
       </CheckBoxDiv>
       <Div>
-        <Button>Submit</Button>
+        <Button type='submit' disabled={!isValid}>
+          Submit
+        </Button>
       </Div>
     </Form>
   );

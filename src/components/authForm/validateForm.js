@@ -1,6 +1,5 @@
 const validateLength = (len, name) => {
   if (!len) {
-    console.log(`${name} required`);
     return `${name} required`;
   }
   return false;
@@ -12,7 +11,14 @@ const validateEmail = (val) => {
   return false;
 };
 
-export const validateForm = (name, value) => {
+const validateConfirmPassword = (pass, cpass) => {
+  if (pass !== cpass) {
+    return 'passwords do not match';
+  }
+  return false;
+};
+
+export const validateForm = (name, value, passVal) => {
   switch (name) {
     case 'username':
       return validateLength(value.length, 'username');
@@ -20,6 +26,8 @@ export const validateForm = (name, value) => {
       return validateLength(value.length, 'password');
     case 'confirm-password':
       return validateLength(value.length, 'confirm-password');
+    case 'confirm-password-match':
+      return validateConfirmPassword(value, passVal);
     case 'email':
       if (!validateLength(value.length, 'email')) return validateEmail(value);
       return validateLength(value.length, 'email');
