@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Form = styled.form`
   width: 100%;
-  max-width: ${(props) => (props.width === 'login' ? '400px' : '600px')};
+  max-width: ${(props) => props.width};
   padding: 10px;
   background-color: lightsalmon;
   border-radius: 10px;

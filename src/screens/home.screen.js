@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { Layout } from '../components';
+import { Layout } from '../components/layout.component';
 import { LoginForm } from '../components/authForm';
 import banner from '../images/movie-rating-app-hero.webp';
 

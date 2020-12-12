@@ -11,6 +11,8 @@ import {
 } from './formStyledComponent';
 import { POST } from '../../utils/httpClient';
 import { validateForm } from './validateForm';
+import { handleError } from '../../utils/handleError';
+import { notifyError, notifySuccess } from '../../utils/notifyError';
 
 export const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -50,13 +52,22 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await POST('/auth/login', formState.data);
-    // TODO:: Error handling
-    console.log('login res: ', res);
+    const [loginError, data] = await handleError(
+      POST('/auth/login', formState.data)
+    );
+    if (loginError) {
+      notifyError(JSON.stringify(loginError.response.data.error.message));
+      // console.log('loginError: ', { loginError });
+    }
+    if (data) {
+      // TODO:: save token and redirect to correct destination
+      notifySuccess('Login success');
+      console.log('logindata: ', data);
+    }
   };
 
   return (
-    <Form onSubmit={handleSubmit} width='login'>
+    <Form onSubmit={handleSubmit} width='400px'>
       <H3>Please Login Here</H3>
       <Div>
         <Label htmlFor='username'>
@@ -74,7 +85,7 @@ export const LoginForm = () => {
         />
       </Div>
       <Div>
-        <Label htmlFor='email'>
+        <Label htmlFor='email_address'>
           Email
           <ErrorSpan active={formState.error.email}>
             {formState.error.email}
@@ -84,7 +95,7 @@ export const LoginForm = () => {
         <Input
           type='text'
           placeholder='email'
-          name='email'
+          name='email_address'
           onChange={handleChange}
         />
       </Div>

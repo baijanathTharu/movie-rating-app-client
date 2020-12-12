@@ -10,14 +10,8 @@ import {
 } from './formStyledComponent';
 import { POST } from '../../utils/httpClient';
 import { validateForm } from './validateForm';
-
-// const Form = styled.form`
-//   width: 100%;
-//   max-width: 600px;
-//   padding: 10px;
-//   background-color: lightsalmon;
-//   border-radius: 10px;
-// `;
+import { handleError } from '../../utils/handleError';
+import { notifyError, notifySuccess } from '../../utils/notifyError';
 
 export const RegisterForm = () => {
   const [formState, setFormState] = useState({
@@ -39,9 +33,18 @@ export const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await POST('/auth/register', formState.data);
-    // TODO:: Error handling
-    console.log('res: ', res);
+    const [regError, data] = await handleError(
+      POST('/auth/register', formState.data)
+    );
+    if (regError) {
+      notifyError(JSON.stringify(regError.response.data.error.message));
+      console.log('regError: ', { regError });
+    }
+    if (data) {
+      // TODO:: save token and redirect to correct destination
+      notifySuccess('registration success');
+      console.log('data: ', data);
+    }
   };
 
   const handleChange = (e) => {
@@ -61,7 +64,6 @@ export const RegisterForm = () => {
               formState.data.password
             ));
       }
-      console.log('error: ', formState.error);
       return {
         data: { ...prevState.data, [name]: value },
         error: { ...errorObj },
@@ -70,7 +72,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} width='600px'>
       <H3>Register Form</H3>
       <Div>
         <Label htmlFor='username'>
@@ -87,7 +89,7 @@ export const RegisterForm = () => {
         />
       </Div>
       <Div>
-        <Label htmlFor='username'>
+        <Label htmlFor='email_address'>
           Email
           <ErrorSpan active={formState.error.email}>
             {formState.error.email}
@@ -96,7 +98,7 @@ export const RegisterForm = () => {
         <Input
           type='text'
           placeholder='email'
-          name='email'
+          name='email_address'
           onChange={handleChange}
         />
       </Div>

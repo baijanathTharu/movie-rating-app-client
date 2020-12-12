@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Footer } from './ui';
 import { Header } from './ui';
 import { SideDrawer } from './ui';
@@ -23,6 +25,17 @@ export const Layout = ({ children }) => {
       <Header toggleDrawer={setDrawer} drawer={drawer} />
       <ChildrenDiv>{children}</ChildrenDiv>
       <Footer />
+      <ToastContainer
+        position='bottom-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };
