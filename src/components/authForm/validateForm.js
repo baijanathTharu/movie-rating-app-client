@@ -28,9 +28,10 @@ export const validateForm = (name, value, passVal) => {
       return validateLength(value.length, 'confirm-password');
     case 'confirm-password-match':
       return validateConfirmPassword(value, passVal);
-    case 'email':
-      if (!validateLength(value.length, 'email')) return validateEmail(value);
-      return validateLength(value.length, 'email');
+    case 'email_address':
+      if (!validateLength(value.length, 'email_address'))
+        return validateEmail(value);
+      return validateLength(value.length, 'email_address');
     default:
       break;
   }

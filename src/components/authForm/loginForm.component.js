@@ -52,17 +52,17 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [loginError, data] = await handleError(
+    const [loginError, res] = await handleError(
       POST('/auth/login', formState.data)
     );
     if (loginError) {
       notifyError(JSON.stringify(loginError.response.data.error.message));
       // console.log('loginError: ', { loginError });
     }
-    if (data) {
-      // TODO:: save token and redirect to correct destination
+    if (res) {
+      localStorage.setItem('token', res.data.token);
       notifySuccess('Login success');
-      console.log('logindata: ', data);
+      console.log('logindata: ', res);
     }
   };
 
@@ -87,8 +87,8 @@ export const LoginForm = () => {
       <Div>
         <Label htmlFor='email_address'>
           Email
-          <ErrorSpan active={formState.error.email}>
-            {formState.error.email}
+          <ErrorSpan active={formState.error.email_address}>
+            {formState.error.email_address}
           </ErrorSpan>
         </Label>
 

@@ -4,7 +4,6 @@
   box-sizing: border-box;
 }
 
-.stop-scrolling {
-  height: 100%;
-  overflow: hidden;
+a {
+  text-decoration: none;
 }

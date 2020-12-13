@@ -33,17 +33,18 @@ export const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [regError, data] = await handleError(
+    const [regError, res] = await handleError(
       POST('/auth/register', formState.data)
     );
     if (regError) {
       notifyError(JSON.stringify(regError.response.data.error.message));
       console.log('regError: ', { regError });
     }
-    if (data) {
+    if (res) {
       // TODO:: save token and redirect to correct destination
+      localStorage.setItem('token', res.data.token);
       notifySuccess('registration success');
-      console.log('data: ', data);
+      console.log('data: ', res);
     }
   };
 
@@ -91,8 +92,8 @@ export const RegisterForm = () => {
       <Div>
         <Label htmlFor='email_address'>
           Email
-          <ErrorSpan active={formState.error.email}>
-            {formState.error.email}
+          <ErrorSpan active={formState.error.email_address}>
+            {formState.error.email_address}
           </ErrorSpan>
         </Label>
         <Input
