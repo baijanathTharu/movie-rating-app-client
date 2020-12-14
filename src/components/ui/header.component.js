@@ -1,23 +1,37 @@
+import { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { MdMenu, MdClose } from 'react-icons/md';
+import { UserContext } from '../../context';
 
 const navLinks = [
   {
     path: '/',
     name: 'Home',
+    isFlagged: true,
+    whenNotAuthenticated: true,
   },
   {
     path: '/about',
     name: 'About',
+    isFlagged: false,
   },
   {
     path: '/register',
     name: 'Register',
+    isFlagged: true,
+    whenNotAuthenticated: true,
   },
   {
     path: '/contact',
     name: 'Contact',
+    isFlagged: false,
+  },
+  {
+    path: '/logout',
+    name: 'Log Out',
+    isFlagged: true,
+    whenNotAuthenticated: false,
   },
 ];
 
@@ -62,14 +76,27 @@ const MenuBar = styled.div`
 
 export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
   const history = useHistory();
+  const userContext = useContext(UserContext);
 
-  const navList = navLinks.map(({ path, name }, idx) => {
-    return (
-      <Link style={{ textDecoration: 'none' }} to={path} key={idx}>
-        <Li active={history.location.pathname === path}>{name}</Li>
-      </Link>
-    );
-  });
+  const navList = navLinks.map(
+    ({ path, name, isFlagged, whenNotAuthenticated }, idx) => {
+      const ListItem = (
+        <Link style={{ textDecoration: 'none' }} to={path} key={idx}>
+          <Li active={history.location.pathname === path}>{name}</Li>
+        </Link>
+      );
+      const renderItem = isFlagged
+        ? whenNotAuthenticated
+          ? userContext.user
+            ? null
+            : ListItem
+          : userContext.user
+          ? ListItem
+          : null
+        : ListItem;
+      return renderItem;
+    }
+  );
 
   return (
     <Nav>

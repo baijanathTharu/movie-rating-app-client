@@ -37,14 +37,22 @@ const App = () => {
           <Route
             path='/register'
             render={(props) =>
-              !user ? <RegisterScreen {...props} /> : <Redirect to='/movies' />
+              user && user.username ? (
+                <Redirect to='/movies' />
+              ) : (
+                <RegisterScreen {...props} />
+              )
             }
           />
           <Route
             path='/'
             exact
             render={(props) =>
-              !user ? <HomeScreen {...props} /> : <Redirect to='/movies' />
+              user && user.username ? (
+                <Redirect to='/movies' />
+              ) : (
+                <HomeScreen {...props} />
+              )
             }
           />
         </Switch>
