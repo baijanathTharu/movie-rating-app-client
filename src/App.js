@@ -14,6 +14,13 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) =>
     <Redirect to={{ pathname: '/' }} />
   );
 
+const UltraProtectedRoute = ({ component: Component, user, ...rest }) =>
+  user && user.role === 0 ? (
+    <Route {...rest} render={(props) => <Component {...props} />} />
+  ) : (
+    <Redirect to='/' />
+  );
+
 const App = () => {
   const [user, setUser] = useState({});
 
@@ -21,14 +28,25 @@ const App = () => {
     <UserContext.Provider value={{ userState: user, setUserState: setUser }}>
       <BrowserRouter>
         <Switch>
-          <ProtectedRoute
+          <UltraProtectedRoute
             user={user}
             path='/dashboard'
             component={DashboardScreen}
           />
           <Route path='/movies' component={MoviesScreen} />
-          <Route path='/register' component={RegisterScreen} />
-          <Route path='/' exact component={HomeScreen} />
+          <Route
+            path='/register'
+            render={(props) =>
+              !user ? <RegisterScreen {...props} /> : <Redirect to='/movies' />
+            }
+          />
+          <Route
+            path='/'
+            exact
+            render={(props) =>
+              !user ? <HomeScreen {...props} /> : <Redirect to='/movies' />
+            }
+          />
         </Switch>
       </BrowserRouter>
     </UserContext.Provider>
