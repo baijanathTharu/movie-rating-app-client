@@ -68,3 +68,8 @@ export const ErrorSpan = styled.span`
   padding: 0 10px;
   display: ${(props) => (props.active ? 'inline-block' : 'none')};
 `;
+
+export const Strong = styled.strong`
+  color: tomato;
+  font-size: 24px;
+`;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Form,
   H3,
@@ -8,11 +8,14 @@ import {
   Button,
   ErrorSpan,
   CheckBoxDiv,
+  Strong,
 } from './formStyledComponent';
 import { POST } from '../../utils/httpClient';
 import { validateForm } from './validateForm';
 import { handleError } from '../../utils/handleError';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
+import { UserContext } from '../../context';
+import { useHistory } from 'react-router';
 
 export const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -21,6 +24,10 @@ export const LoginForm = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  const userContext = useContext(UserContext);
+
+  const history = useHistory();
 
   useEffect(() => {
     if (
@@ -61,14 +68,20 @@ export const LoginForm = () => {
     }
     if (res) {
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.user.role || '1');
       notifySuccess('Login success');
-      console.log('logindata: ', res);
+      userContext.setUserState(res.data.user);
+      console.log('logindata: ', res.data.user);
+      history.push('/movies');
     }
   };
 
   return (
     <Form onSubmit={handleSubmit} width='400px'>
-      <H3>Please Login Here</H3>
+      <H3>
+        Hey <Strong>{userContext.userState.username || 'Stranger'}!</Strong>{' '}
+        Please Login Here
+      </H3>
       <Div>
         <Label htmlFor='username'>
           Username

@@ -1,33 +1,37 @@
-import { useHistory } from 'react-router-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { HomeScreen, RegisterScreen } from './screens';
+import { useState } from 'react';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { UserContext } from './context';
+import { HomeScreen, MoviesScreen, RegisterScreen } from './screens';
 import { DashboardScreen } from './screens';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const history = useHistory();
-  return (
+const ProtectedRoute = ({ component: Component, user, ...rest }) =>
+  user ? (
     <Route
       {...rest}
-      render={(routeProps) =>
-        localStorage.getItem('token') ? (
-          <Component {...routeProps} />
-        ) : (
-          history.push('/')
-        )
-      }
+      render={(renderProps) => <Component {...rest} {...renderProps} />}
     />
+  ) : (
+    <Redirect to={{ pathname: '/' }} />
   );
-};
 
 const App = () => {
+  const [user, setUser] = useState({});
+
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path='/register' component={RegisterScreen} />
-        <ProtectedRoute path='/dashboard' component={DashboardScreen} />
-        <Route path='/' exact component={HomeScreen} />
-      </Switch>
-    </BrowserRouter>
+    <UserContext.Provider value={{ userState: user, setUserState: setUser }}>
+      <BrowserRouter>
+        <Switch>
+          <ProtectedRoute
+            user={user}
+            path='/dashboard'
+            component={DashboardScreen}
+          />
+          <Route path='/movies' component={MoviesScreen} />
+          <Route path='/register' component={RegisterScreen} />
+          <Route path='/' exact component={HomeScreen} />
+        </Switch>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 };
 

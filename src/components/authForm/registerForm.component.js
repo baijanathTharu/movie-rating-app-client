@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
   Form,
   H3,
@@ -7,11 +7,14 @@ import {
   Input,
   Button,
   ErrorSpan,
+  Strong,
 } from './formStyledComponent';
 import { POST } from '../../utils/httpClient';
 import { validateForm } from './validateForm';
 import { handleError } from '../../utils/handleError';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
+import { UserContext } from '../../context';
+import { useHistory } from 'react-router';
 
 export const RegisterForm = () => {
   const [formState, setFormState] = useState({
@@ -20,6 +23,10 @@ export const RegisterForm = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  const userContext = useContext(UserContext);
+
+  const history = useHistory();
 
   useEffect(() => {
     if (
@@ -41,10 +48,12 @@ export const RegisterForm = () => {
       console.log('regError: ', { regError });
     }
     if (res) {
-      // TODO:: save token and redirect to correct destination
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.role || '1');
       notifySuccess('registration success');
       console.log('data: ', res);
+      userContext.setUserState(res.data);
+      history.push('/');
     }
   };
 
@@ -74,7 +83,9 @@ export const RegisterForm = () => {
 
   return (
     <Form onSubmit={handleSubmit} width='600px'>
-      <H3>Register Form</H3>
+      <H3>
+        Hey <Strong>Stranger!</Strong> Register Here
+      </H3>
       <Div>
         <Label htmlFor='username'>
           Username
