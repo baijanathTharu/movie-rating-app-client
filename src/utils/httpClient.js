@@ -13,3 +13,12 @@ export const POST = (url, data, configParams = {}) => {
     },
   });
 };
+
+export const GET = (url, configParams = {}) => {
+  return http.get(url, {
+    configParams,
+    headers: {
+      // authorization: localStorage.getItem('token'),
+    },
+  });
+};

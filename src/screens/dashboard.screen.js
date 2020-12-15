@@ -1,7 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { UserContext } from '../context';
+import { handleError } from '../utils/handleError';
+import { GET } from '../utils/httpClient';
+import { notifyError, notifySuccess } from '../utils/notifyError';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -9,11 +14,11 @@ const SideDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.95);
   position: fixed;
   left: 0;
-  padding: 20px;
   color: wheat;
+  padding: 20px;
 `;
 
-const ContainerDiv = styled.div`
+const ContentContainerDiv = styled.div`
   margin-left: 300px;
   min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
@@ -52,6 +57,27 @@ const P = styled.p`
 
 export const DashboardScreen = () => {
   const userContext = useContext(UserContext);
+
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const [moviesFetchError, moviesList] = await handleError(
+        GET(`/movies`, {})
+      );
+
+      if (moviesFetchError) {
+        console.log({ moviesFetchError });
+        return notifyError('Movies Fetching failed');
+      }
+      console.log('movies: ', moviesList);
+      notifySuccess('Movies Fetched!');
+      setMovies(moviesList);
+    };
+    fetchMovies();
+    return () => {};
+  }, []);
+
   return (
     <>
       <SideDiv>
@@ -80,9 +106,20 @@ export const DashboardScreen = () => {
           <MenuLI>Users</MenuLI>
         </MenuUL>
       </SideDiv>
-      <ContainerDiv>
+      <ContentContainerDiv>
         <h1>{userContext.userState.username}</h1>
-      </ContainerDiv>
+        <ToastContainer
+          position='bottom-right'
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </ContentContainerDiv>
     </>
   );
 };
