@@ -7,6 +7,7 @@ import { UserContext } from '../context';
 import { handleError } from '../utils/handleError';
 import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
+import { MovieCard } from '../components/movies/movieCard.component';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -55,6 +56,12 @@ const P = styled.p`
   color: wheat;
 `;
 
+const MovieContainer = styled.div`
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+`;
+
 export const DashboardScreen = () => {
   const userContext = useContext(UserContext);
 
@@ -62,7 +69,7 @@ export const DashboardScreen = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const [moviesFetchError, moviesList] = await handleError(
+      const [moviesFetchError, moviesRes] = await handleError(
         GET(`/movies`, {})
       );
 
@@ -70,13 +77,26 @@ export const DashboardScreen = () => {
         console.log({ moviesFetchError });
         return notifyError('Movies Fetching failed');
       }
-      console.log('movies: ', moviesList);
+      console.log('movies: ', moviesRes);
       notifySuccess('Movies Fetched!');
-      setMovies(moviesList);
+      setMovies(moviesRes.data);
     };
     fetchMovies();
     return () => {};
   }, []);
+
+  const MovieCards = movies.map((movie, idx) => {
+    return (
+      <MovieCard
+        key={idx}
+        width='200px'
+        movieName={movie.title}
+        movieImage={movie.images[0]}
+        movieDescription={movie.description}
+        movieGenre={movie.genre}
+      />
+    );
+  });
 
   return (
     <>
@@ -108,6 +128,7 @@ export const DashboardScreen = () => {
       </SideDiv>
       <ContentContainerDiv>
         <h1>{userContext.userState.username}</h1>
+        <MovieContainer>{MovieCards}</MovieContainer>
         <ToastContainer
           position='bottom-right'
           autoClose={5000}

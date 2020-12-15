@@ -18,7 +18,7 @@ export const GET = (url, configParams = {}) => {
   return http.get(url, {
     configParams,
     headers: {
-      // authorization: localStorage.getItem('token'),
+      authorization: localStorage.getItem('token'),
     },
   });
 };
