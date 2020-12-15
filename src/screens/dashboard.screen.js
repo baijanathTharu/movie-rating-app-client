@@ -1,5 +1,7 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserContext } from '../context';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -49,6 +51,7 @@ const P = styled.p`
 `;
 
 export const DashboardScreen = () => {
+  const userContext = useContext(UserContext);
   return (
     <>
       <SideDiv>
@@ -77,7 +80,9 @@ export const DashboardScreen = () => {
           <MenuLI>Users</MenuLI>
         </MenuUL>
       </SideDiv>
-      <ContainerDiv>contetns</ContainerDiv>
+      <ContainerDiv>
+        <h1>{userContext.userState.username}</h1>
+      </ContainerDiv>
     </>
   );
 };

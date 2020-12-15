@@ -4,34 +4,33 @@ import styled from 'styled-components';
 import { MdMenu, MdClose } from 'react-icons/md';
 import { UserContext } from '../../context';
 
-const navLinks = [
+const navLinksWhenNotLoggedIn = [
   {
     path: '/',
     name: 'Home',
-    isFlagged: true,
-    whenNotAuthenticated: true,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    isFlagged: false,
   },
   {
     path: '/register',
     name: 'Register',
-    isFlagged: true,
-    whenNotAuthenticated: true,
   },
+];
+
+const navLinksWhenLoggedIn = [
+  {
+    path: '/someRoute',
+    name: 'SomeRoute',
+  },
+];
+
+const navLinks = [
+  {
+    path: '/about',
+    name: 'About',
+  },
+
   {
     path: '/contact',
     name: 'Contact',
-    isFlagged: false,
-  },
-  {
-    path: '/logout',
-    name: 'Log Out',
-    isFlagged: true,
-    whenNotAuthenticated: false,
   },
 ];
 
@@ -74,34 +73,65 @@ const MenuBar = styled.div`
   }
 `;
 
+const Button = styled.button`
+  background-color: black;
+  color: wheat;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  outline: none;
+  border: 0;
+  cursor: pointer;
+`;
+
 export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
   const history = useHistory();
   const userContext = useContext(UserContext);
 
-  const navList = navLinks.map(
-    ({ path, name, isFlagged, whenNotAuthenticated }, idx) => {
-      const ListItem = (
-        <Link style={{ textDecoration: 'none' }} to={path} key={idx}>
-          <Li active={history.location.pathname === path}>{name}</Li>
-        </Link>
-      );
-      const renderItem = isFlagged
-        ? whenNotAuthenticated
-          ? userContext.user
-            ? null
-            : ListItem
-          : userContext.user
-          ? ListItem
-          : null
-        : ListItem;
-      return renderItem;
-    }
+  const generateListItem = (path, name, idx) => (
+    <Link style={{ textDecoration: 'none' }} to={path} key={idx}>
+      <Li active={history.location.pathname === path}>{name}</Li>
+    </Link>
   );
+
+  const navList = navLinks.map(({ path, name }, idx) =>
+    generateListItem(path, name, idx)
+  );
+
+  const navListWhenNotLoggedIn = navLinksWhenNotLoggedIn.map(
+    ({ path, name }, idx) =>
+      userContext.userState.username ? null : generateListItem(path, name, idx)
+  );
+  const navListWhenLoggedIn = navLinksWhenLoggedIn.map(({ path, name }, idx) =>
+    userContext.userState.username ? generateListItem(path, name, idx) : null
+  );
+
+  const logOutHandler = () => {
+    userContext.setUserState({});
+    history.push('/');
+  };
+
+  const LogOutBtn = userContext.userState.username ? (
+    <Button onClick={logOutHandler}>LogOut</Button>
+  ) : null;
+
+  const DashboardLink =
+    userContext.userState.username && userContext.userState.role === 0 ? (
+      <Link style={{ textDecoration: 'none' }} to='/dashboard'>
+        <Li>Dashboard</Li>
+      </Link>
+    ) : null;
 
   return (
     <Nav>
       <H1>Movie Rating App</H1>
-      <Ul>{navList}</Ul>
+      <Ul>
+        {navList}
+        {navListWhenLoggedIn}
+        {navListWhenNotLoggedIn}
+        {DashboardLink}
+      </Ul>
+      {LogOutBtn}
       <MenuBar onClick={() => toggleDrawer({ isVisible: !isVisible })}>
         {isVisible ? <MdClose /> : <MdMenu />}
       </MenuBar>
