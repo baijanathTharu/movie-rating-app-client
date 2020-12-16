@@ -59,7 +59,7 @@ const P = styled.p`
 const MovieContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   padding: 20px;
 `;
 
@@ -90,7 +90,7 @@ export const DashboardScreen = () => {
     return (
       <MovieCard
         key={idx}
-        width='200px'
+        width='250px'
         movieName={movie.title}
         movieImage={movie.images[0]}
         movieDescription={movie.description}
