@@ -126,9 +126,9 @@ export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
     <Nav>
       <H1>Movie Rating App</H1>
       <Ul>
+        {navListWhenNotLoggedIn}
         {navList}
         {navListWhenLoggedIn}
-        {navListWhenNotLoggedIn}
         {DashboardLink}
       </Ul>
       {LogOutBtn}

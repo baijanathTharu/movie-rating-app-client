@@ -58,8 +58,9 @@ const P = styled.p`
 
 const MovieContainer = styled.div`
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 20px;
 `;
 
 export const DashboardScreen = () => {
@@ -127,7 +128,6 @@ export const DashboardScreen = () => {
         </MenuUL>
       </SideDiv>
       <ContentContainerDiv>
-        <h1>{userContext.userState.username}</h1>
         <MovieContainer>{MovieCards}</MovieContainer>
         <ToastContainer
           position='bottom-right'
