@@ -53,17 +53,19 @@ export const MovieCard = ({
   movieName,
   movieImage,
   movieDescription,
+  triggerPopUp,
 }) => {
   const imageSrc = movieImage
     ? `${IMG_URL}/${movieImage}`
     : `https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg`;
+
   return (
     <CardDiv>
       <MovieImage src={imageSrc} />
       <H3>{movieName}</H3>
       <P>{movieDescription}</P>
       <ActionDiv>
-        <MdEdit color='green' cursor='pointer' />
+        <MdEdit color='green' cursor='pointer' onClick={triggerPopUp} />
         <MdDelete color='red' cursor='pointer' />
       </ActionDiv>
     </CardDiv>

@@ -8,6 +8,7 @@ import { handleError } from '../utils/handleError';
 import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { MovieCard } from '../components/movies/movieCard.component';
+import { MovieBackDrop, PopUp } from '../components/ui';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -65,7 +66,10 @@ const MovieContainer = styled.div`
 
 export const DashboardScreen = () => {
   const userContext = useContext(UserContext);
-
+  const [moviePopUp, setMoviePopUp] = useState({
+    isHidden: true,
+    movieId: null,
+  });
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -95,6 +99,9 @@ export const DashboardScreen = () => {
         movieImage={movie.images[0]}
         movieDescription={movie.description}
         movieGenre={movie.genre}
+        triggerPopUp={(prevState) =>
+          setMoviePopUp({ isHidden: false, movieId: movie._id })
+        }
       />
     );
   });
@@ -141,6 +148,20 @@ export const DashboardScreen = () => {
           pauseOnHover
         />
       </ContentContainerDiv>
+      <PopUp isHidden={moviePopUp.isHidden} width='70vw' height='80vh'>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
+          libero ipsum necessitatibus officiis exercitationem quo quidem qui
+          dolorem natus, aperiam debitis quibusdam commodi perferendis molestias
+          dolorum hic fugiat, quasi laboriosam!
+        </p>
+      </PopUp>
+      <MovieBackDrop
+        togglePopUp={() =>
+          setMoviePopUp({ isHidden: !moviePopUp.isHidden, movieId: null })
+        }
+        isHidden={moviePopUp.isHidden}
+      />
     </>
   );
 };

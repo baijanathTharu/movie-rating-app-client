@@ -18,7 +18,7 @@ const UltraProtectedRoute = ({ component: Component, user, ...rest }) =>
   user && user.role === 0 ? (
     <Route {...rest} render={(props) => <Component {...props} />} />
   ) : (
-    <Redirect to='/' />
+    <Redirect to={{ pathname: '/' }} />
   );
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
             path='/register'
             render={(props) =>
               user && user.username ? (
-                <Redirect to='/movies' />
+                <Redirect to={{ pathname: '/movies' }} />
               ) : (
                 <RegisterScreen {...props} />
               )
@@ -49,7 +49,7 @@ const App = () => {
             exact
             render={(props) =>
               user && user.username ? (
-                <Redirect to='/movies' />
+                <Redirect to={{ pathname: '/movies' }} />
               ) : (
                 <HomeScreen {...props} />
               )
