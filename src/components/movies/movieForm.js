@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Form,
   H3,
@@ -10,6 +11,9 @@ import {
   Strong,
   Textarea,
 } from './movieStyledComponent';
+import { POST } from '../../utils/httpClient';
+import { notifyError, notifySuccess } from '../../utils/notifyError';
+import { handleError } from '../../utils/handleError';
 
 const FormItems = [
   {
@@ -18,7 +22,7 @@ const FormItems = [
   },
   {
     type: 'file',
-    name: 'images',
+    name: 'image',
   },
   {
     type: 'date',
@@ -59,20 +63,60 @@ const FormItems = [
 ];
 
 export const MovieForm = ({ formTitle }) => {
+  const [formState, setFormState] = useState({});
+
+  const handleChange = (e) => {
+    let { name, value, files } = e.target;
+    if (name === 'image') {
+      value = files[0];
+    }
+    if (!value) {
+      let formStateCopy = { ...formState };
+      delete formStateCopy[name];
+      return setFormState(formStateCopy);
+    }
+    setFormState((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    FormItems.forEach((item) => {
+      data.append(item.name, formState[item.name]);
+    });
+    data.append('description', formState.description);
+    const [movieError, movieRes] = await handleError(
+      POST('/movies', data, {}, true)
+    );
+    if (movieError) {
+      console.log('movieError while adding: ', { movieError });
+      return notifyError('Movie adding failed!');
+    }
+    console.log('Movie res while adding: ', movieRes);
+    notifySuccess('movie added successfully!');
+  };
+
+  console.log('formstate: ', formState);
+
   const FormList = FormItems.map((item, idx) => (
     <Div key={idx}>
       <Label htmlFor={item.name.toUpperCase()}>{item.name.toUpperCase()}</Label>
-      <Input type={item.type} placeholder={item.name} name={item.name} />
+      <Input
+        type={item.type}
+        placeholder={item.name}
+        name={item.name}
+        onChange={handleChange}
+      />
     </Div>
   ));
 
   return (
-    <Form type='submit'>
+    <Form type='submit' onSubmit={handleSubmit}>
       <H3>{formTitle}</H3>
       {FormList}
       <Div>
         <Label htmlFor='description'>DESCRIPTION</Label>
-        <Textarea />
+        <Textarea name='description' onChange={handleChange} />
       </Div>
 
       <Div>

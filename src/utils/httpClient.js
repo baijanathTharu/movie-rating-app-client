@@ -5,20 +5,25 @@ const http = axios.create({
   responseType: 'json',
 });
 
-export const POST = (url, data, configParams = {}) => {
+const getHeaders = (isSecured) => {
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  if (!isSecured) return headers;
+  headers['authorization'] = localStorage.getItem('token');
+  return headers;
+};
+
+export const POST = (url, data, configParams = {}, isSecured = false) => {
   return http.post(url, data, {
     configParams,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: getHeaders(isSecured),
   });
 };
 
-export const GET = (url, configParams = {}) => {
+export const GET = (url, configParams = {}, isSecured = true) => {
   return http.get(url, {
     configParams,
-    headers: {
-      authorization: localStorage.getItem('token'),
-    },
+    headers: getHeaders(isSecured),
   });
 };
