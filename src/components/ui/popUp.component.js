@@ -4,8 +4,7 @@ const PopDiv = styled.div`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   background-color: rgba(0, 0, 0, 0.9);
-  opacity: 0.5;
-  border: 1px solid red;
+  opacity: 0.9;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -18,7 +17,6 @@ const PopDiv = styled.div`
 export const PopUp = ({ width, height, isHidden, children }) => {
   return (
     <PopDiv width={width} height={height} isHidden={isHidden}>
-      <h1>pop up</h1>
       {children}
     </PopDiv>
   );

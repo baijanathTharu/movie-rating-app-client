@@ -9,6 +9,7 @@ import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { MovieCard } from '../components/movies/movieCard.component';
 import { MovieBackDrop, PopUp } from '../components/ui';
+import { MovieForm } from '../components/movies/movieForm';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -66,12 +67,14 @@ const MovieContainer = styled.div`
 
 export const DashboardScreen = () => {
   const userContext = useContext(UserContext);
-  const [moviePopUp, setMoviePopUp] = useState({
+  const [editMoviePopUp, setEditMoviePopUp] = useState({
     isHidden: true,
     movieId: null,
   });
+  const [addMoviePopUp, setAddMoviePopUp] = useState({ isHidden: true });
   const [movies, setMovies] = useState([]);
 
+  console.log('movie in popup: ', editMoviePopUp.movieId);
   useEffect(() => {
     const fetchMovies = async () => {
       const [moviesFetchError, moviesRes] = await handleError(
@@ -100,7 +103,7 @@ export const DashboardScreen = () => {
         movieDescription={movie.description}
         movieGenre={movie.genre}
         triggerPopUp={(prevState) =>
-          setMoviePopUp({ isHidden: false, movieId: movie._id })
+          setEditMoviePopUp({ isHidden: false, movieId: movie._id })
         }
       />
     );
@@ -115,7 +118,9 @@ export const DashboardScreen = () => {
             <H3>Movies</H3>
             <ItemsDiv>
               <Link>
-                <P>Add movie</P>
+                <P onClick={() => setAddMoviePopUp({ isHidden: false })}>
+                  Add movie
+                </P>
               </Link>
               <Link>
                 <P>Add movie</P>
@@ -148,19 +153,28 @@ export const DashboardScreen = () => {
           pauseOnHover
         />
       </ContentContainerDiv>
-      <PopUp isHidden={moviePopUp.isHidden} width='70vw' height='80vh'>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-          libero ipsum necessitatibus officiis exercitationem quo quidem qui
-          dolorem natus, aperiam debitis quibusdam commodi perferendis molestias
-          dolorum hic fugiat, quasi laboriosam!
-        </p>
+      <PopUp isHidden={editMoviePopUp.isHidden} width='70vw' height='80vh'>
+        <MovieForm formTitle='Edit movie' />
+      </PopUp>
+      <PopUp isHidden={addMoviePopUp.isHidden} width='70vw' height='80vh'>
+        <MovieForm formTitle='Add a movie' />
       </PopUp>
       <MovieBackDrop
         togglePopUp={() =>
-          setMoviePopUp({ isHidden: !moviePopUp.isHidden, movieId: null })
+          setEditMoviePopUp({
+            isHidden: !editMoviePopUp.isHidden,
+            movieId: null,
+          })
         }
-        isHidden={moviePopUp.isHidden}
+        isHidden={editMoviePopUp.isHidden}
+      />
+      <MovieBackDrop
+        togglePopUp={() =>
+          setAddMoviePopUp({
+            isHidden: !addMoviePopUp.isHidden,
+          })
+        }
+        isHidden={addMoviePopUp.isHidden}
       />
     </>
   );
