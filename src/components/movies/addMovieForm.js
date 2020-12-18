@@ -11,7 +11,7 @@ import {
   Strong,
   Textarea,
 } from './movieStyledComponent';
-import { POST } from '../../utils/httpClient';
+import { GET, POST } from '../../utils/httpClient';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { handleError } from '../../utils/handleError';
 
@@ -62,7 +62,7 @@ const FormItems = [
   },
 ];
 
-export const MovieForm = ({ formTitle }) => {
+export const MovieForm = ({ formTitle, movieId }) => {
   const [formState, setFormState] = useState({});
 
   const handleChange = (e) => {
@@ -75,7 +75,7 @@ export const MovieForm = ({ formTitle }) => {
       delete formStateCopy[name];
       return setFormState(formStateCopy);
     }
-    setFormState((prevState) => ({ ...prevState, [name]: value }));
+    return setFormState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -89,11 +89,10 @@ export const MovieForm = ({ formTitle }) => {
       POST('/movies', data, {}, true)
     );
     if (movieError) {
-      console.log('movieError while adding: ', { movieError });
       return notifyError('Movie adding failed!');
     }
-    console.log('Movie res while adding: ', movieRes);
-    notifySuccess('movie added successfully!');
+    // TODO:: show added movie
+    return notifySuccess('movie added successfully!');
   };
 
   console.log('formstate: ', formState);
@@ -116,7 +115,11 @@ export const MovieForm = ({ formTitle }) => {
       {FormList}
       <Div>
         <Label htmlFor='description'>DESCRIPTION</Label>
-        <Textarea name='description' onChange={handleChange} />
+        <Textarea
+          name='description'
+          value={formState.description}
+          onChange={handleChange}
+        />
       </Div>
 
       <Div>

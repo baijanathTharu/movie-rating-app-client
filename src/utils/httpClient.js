@@ -27,3 +27,7 @@ export const GET = (url, configParams = {}, isSecured = true) => {
     headers: getHeaders(isSecured),
   });
 };
+
+export const PUT = (url, data, configParams = {}, isSecured = true) => {
+  return http.put(url, data, { configParams, headers: getHeaders(isSecured) });
+};

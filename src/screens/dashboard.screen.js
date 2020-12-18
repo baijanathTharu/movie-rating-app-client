@@ -9,7 +9,8 @@ import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { MovieCard } from '../components/movies/movieCard.component';
 import { MovieBackDrop, PopUp } from '../components/ui';
-import { MovieForm } from '../components/movies/movieForm';
+import { MovieForm } from '../components/movies/addMovieForm';
+import { EditMovieForm } from '../components/movies/editMovieForm.component';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -117,23 +118,13 @@ export const DashboardScreen = () => {
           <MenuLI>
             <H3>Movies</H3>
             <ItemsDiv>
-              <Link>
-                <P onClick={() => setAddMoviePopUp({ isHidden: false })}>
-                  Add movie
-                </P>
-              </Link>
-              <Link>
-                <P>Add movie</P>
-              </Link>
-              <Link>
-                <P>Add movie</P>
-              </Link>
-              <Link>
-                <P>Add movie</P>
-              </Link>
-              <Link>
-                <P>Add movie</P>
-              </Link>
+              <P onClick={() => setAddMoviePopUp({ isHidden: false })}>
+                Add movie
+              </P>
+              <P>Add movie</P>
+              <P>Add movie</P>
+              <P>Add movie</P>
+              <P>Add movie</P>
             </ItemsDiv>
           </MenuLI>
           <MenuLI>Users</MenuLI>
@@ -154,7 +145,10 @@ export const DashboardScreen = () => {
         />
       </ContentContainerDiv>
       <PopUp isHidden={editMoviePopUp.isHidden} width='70vw' height='80vh'>
-        <MovieForm formTitle='Edit movie' />
+        <EditMovieForm
+          formTitle='Edit movie'
+          movieId={editMoviePopUp.movieId}
+        />
       </PopUp>
       <PopUp isHidden={addMoviePopUp.isHidden} width='70vw' height='80vh'>
         <MovieForm formTitle='Add a movie' />
