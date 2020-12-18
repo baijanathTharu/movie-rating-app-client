@@ -45,13 +45,11 @@ export const RegisterForm = () => {
     );
     if (regError) {
       notifyError(JSON.stringify(regError.response.data.error.message));
-      console.log('regError: ', { regError });
     }
     if (res) {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.role || '1');
       notifySuccess('registration success');
-      console.log('data: ', res);
       userContext.setUserState(res.data);
       history.push('/');
     }

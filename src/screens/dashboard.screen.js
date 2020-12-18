@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -75,18 +74,14 @@ export const DashboardScreen = () => {
   const [addMoviePopUp, setAddMoviePopUp] = useState({ isHidden: true });
   const [movies, setMovies] = useState([]);
 
-  console.log('movie in popup: ', editMoviePopUp.movieId);
   useEffect(() => {
     const fetchMovies = async () => {
       const [moviesFetchError, moviesRes] = await handleError(
         GET(`/movies`, {})
       );
-
       if (moviesFetchError) {
-        console.log({ moviesFetchError });
         return notifyError('Movies Fetching failed');
       }
-      console.log('movies: ', moviesRes);
       notifySuccess('Movies Fetched!');
       setMovies(moviesRes.data);
     };

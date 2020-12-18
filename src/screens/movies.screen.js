@@ -43,7 +43,6 @@ const H2 = styled.h2`
 
 export const MoviesScreen = () => {
   const userContext = useContext(UserContext);
-  console.log('user: ', userContext);
   return (
     <Layout>
       <Hero

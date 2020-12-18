@@ -65,11 +65,9 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
         GET(`/movies/${movieId}`, {}, true)
       );
       if (movieError) {
-        console.log('movieError: ', { movieError });
         return notifyError('Movie cannot be fetched!');
       }
       if (movieRes && movieRes.data) {
-        console.log('movieRes: ', movieRes);
         const newFormState = {};
         FormItems.forEach((item) => {
           if (typeof movieRes.data[item.name] === 'string') {
@@ -79,7 +77,6 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
             }
           }
           if (typeof movieRes.data[item.name] === 'object') {
-            console.log('item: ', movieRes.data[item.name]);
             newFormState[item.name] = movieRes.data[item.name].join(', ');
           }
         });
@@ -114,7 +111,7 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
     for (const [key, value] of Object.entries(editedFormState)) {
       data.append(key, value);
     }
-    console.log('data: ', data);
+
     const [editMovieError, editMovieRes] = await handleError(
       PUT(`/movies/${movieId}`, data, {}, true)
     );
@@ -123,8 +120,6 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
     }
     return notifySuccess('movie edited successfully!');
   };
-
-  console.log('editedformstate: ', editedFormState);
 
   const FormList = FormItems.map((item, idx) => (
     <Div key={idx}>

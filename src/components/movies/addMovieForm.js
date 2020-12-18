@@ -95,8 +95,6 @@ export const MovieForm = ({ formTitle, movieId }) => {
     return notifySuccess('movie added successfully!');
   };
 
-  console.log('formstate: ', formState);
-
   const FormList = FormItems.map((item, idx) => (
     <Div key={idx}>
       <Label htmlFor={item.name.toUpperCase()}>{item.name.toUpperCase()}</Label>

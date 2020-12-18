@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -16,5 +17,13 @@ export const BackDrop = ({ toggleDrawer }) => {
 };
 
 export const MovieBackDrop = ({ togglePopUp, isHidden }) => {
+  useEffect(() => {
+    const body = document.getElementsByTagName('body')[0];
+    if (!isHidden) {
+      return body.classList.add('stop-scroll');
+    }
+    body.classList.remove('stop-scroll');
+  }, [isHidden]);
+
   return <Div onClick={togglePopUp} isHidden={isHidden}></Div>;
 };

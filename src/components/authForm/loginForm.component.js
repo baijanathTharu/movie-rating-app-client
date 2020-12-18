@@ -64,14 +64,13 @@ export const LoginForm = () => {
     );
     if (loginError) {
       notifyError(JSON.stringify(loginError.response.data.error.message));
-      // console.log('loginError: ', { loginError });
     }
     if (res) {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.user.role || '1');
       notifySuccess('Login success');
       userContext.setUserState(res.data.user);
-      console.log('logindata: ', res.data.user);
+
       history.push('/movies');
     }
   };
