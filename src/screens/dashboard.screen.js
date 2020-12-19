@@ -80,6 +80,24 @@ export const DashboardScreen = () => {
   });
   const [movies, setMovies] = useState([]);
 
+  const closeEditPopUp = () =>
+    setEditMoviePopUp({
+      isHidden: !editMoviePopUp.isHidden,
+      movieId: null,
+    });
+
+  const closeAddMoviePopUp = () =>
+    setAddMoviePopUp({
+      isHidden: !addMoviePopUp.isHidden,
+    });
+
+  const closeDeleteMoviePopUP = () =>
+    setDeleteMoviePopUp({
+      isHidden: !deleteMoviePopUp.isHidden,
+      movieId: null,
+      movieTitle: null,
+    });
+
   useEffect(() => {
     const fetchMovies = async () => {
       const [moviesFetchError, moviesRes] = await handleError(
@@ -152,16 +170,31 @@ export const DashboardScreen = () => {
           pauseOnHover
         />
       </ContentContainerDiv>
-      <PopUp isHidden={editMoviePopUp.isHidden} width='70vw' height='80vh'>
+      <PopUp
+        isHidden={editMoviePopUp.isHidden}
+        closePopUp={closeEditPopUp}
+        width='70vw'
+        height='80vh'
+      >
         <EditMovieForm
           formTitle='Edit movie'
           movieId={editMoviePopUp.movieId}
         />
       </PopUp>
-      <PopUp isHidden={addMoviePopUp.isHidden} width='70vw' height='80vh'>
+      <PopUp
+        isHidden={addMoviePopUp.isHidden}
+        closePopUp={closeAddMoviePopUp}
+        width='70vw'
+        height='80vh'
+      >
         <MovieForm formTitle='Add a movie' />
       </PopUp>
-      <PopUp isHidden={deleteMoviePopUp.isHidden} width='40vw' height='30vh'>
+      <PopUp
+        isHidden={deleteMoviePopUp.isHidden}
+        closePopUp={closeDeleteMoviePopUP}
+        width='40vw'
+        height='30vh'
+      >
         <DeleteMovieForm
           movieId={deleteMoviePopUp.movieId}
           movieTitle={deleteMoviePopUp.movieTitle}
@@ -175,30 +208,15 @@ export const DashboardScreen = () => {
         />
       </PopUp>
       <MovieBackDrop
-        togglePopUp={() =>
-          setEditMoviePopUp({
-            isHidden: !editMoviePopUp.isHidden,
-            movieId: null,
-          })
-        }
+        togglePopUp={closeEditPopUp}
         isHidden={editMoviePopUp.isHidden}
       />
       <MovieBackDrop
-        togglePopUp={() =>
-          setAddMoviePopUp({
-            isHidden: !addMoviePopUp.isHidden,
-          })
-        }
+        togglePopUp={closeAddMoviePopUp}
         isHidden={addMoviePopUp.isHidden}
       />
       <MovieBackDrop
-        togglePopUp={() =>
-          setDeleteMoviePopUp({
-            isHidden: !deleteMoviePopUp.isHidden,
-            movieId: null,
-            movieTitle: null,
-          })
-        }
+        togglePopUp={closeDeleteMoviePopUP}
         isHidden={deleteMoviePopUp.isHidden}
       />
     </>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MdClose } from 'react-icons/md';
 
 const PopDiv = styled.div`
   width: ${(props) => props.width};
@@ -18,10 +19,30 @@ const PopDiv = styled.div`
   overflow-y: auto;
 `;
 
-export const PopUp = ({ width, height, isHidden, children }) => {
+const ChildrenContainer = styled.div`
+  position: relative;
+`;
+
+const CloseDiv = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 20px;
+`;
+
+export const PopUp = ({ width, height, isHidden, closePopUp, children }) => {
   return (
     <PopDiv width={width} height={height} isHidden={isHidden}>
-      {children}
+      <ChildrenContainer>
+        {children}
+        <CloseDiv>
+          <MdClose
+            color='red'
+            size='36px'
+            cursor='pointer'
+            onClick={closePopUp}
+          />
+        </CloseDiv>
+      </ChildrenContainer>
     </PopDiv>
   );
 };
