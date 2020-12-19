@@ -5,7 +5,7 @@ const PopDiv = styled.div`
   height: ${(props) => props.height};
   background-color: rgba(0, 0, 0, 0.9);
   opacity: 0.9;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

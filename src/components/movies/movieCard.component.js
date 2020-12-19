@@ -63,7 +63,7 @@ export const MovieCard = ({
     <CardDiv>
       <MovieImage src={imageSrc} />
       <H3>{movieName}</H3>
-      <P>{movieDescription}</P>
+      <P>{movieDescription.slice(0, 50)}...</P>
       <ActionDiv>
         <MdEdit color='green' cursor='pointer' onClick={triggerPopUp} />
         <MdDelete color='red' cursor='pointer' />
