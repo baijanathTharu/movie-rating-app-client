@@ -6,12 +6,9 @@ import {
   Label,
   Input,
   Button,
-  ErrorSpan,
-  CheckBoxDiv,
-  Strong,
   Textarea,
 } from './movieStyledComponent';
-import { GET, POST } from '../../utils/httpClient';
+import { POST } from '../../utils/httpClient';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { handleError } from '../../utils/handleError';
 

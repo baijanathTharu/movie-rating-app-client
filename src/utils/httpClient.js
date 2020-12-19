@@ -31,3 +31,7 @@ export const GET = (url, configParams = {}, isSecured = true) => {
 export const PUT = (url, data, configParams = {}, isSecured = true) => {
   return http.put(url, data, { configParams, headers: getHeaders(isSecured) });
 };
+
+export const Delete = (url, configParams = {}, isSecured = true) => {
+  return http.delete(url, { configParams, headers: getHeaders(isSecured) });
+};

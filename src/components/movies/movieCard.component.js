@@ -54,6 +54,7 @@ export const MovieCard = ({
   movieImage,
   movieDescription,
   triggerPopUp,
+  triggerConfirmDeletePopUp,
 }) => {
   const imageSrc = movieImage
     ? `${IMG_URL}/${movieImage}`
@@ -66,7 +67,11 @@ export const MovieCard = ({
       <P>{movieDescription.slice(0, 50)}...</P>
       <ActionDiv>
         <MdEdit color='green' cursor='pointer' onClick={triggerPopUp} />
-        <MdDelete color='red' cursor='pointer' />
+        <MdDelete
+          color='red'
+          cursor='pointer'
+          onClick={triggerConfirmDeletePopUp}
+        />
       </ActionDiv>
     </CardDiv>
   );

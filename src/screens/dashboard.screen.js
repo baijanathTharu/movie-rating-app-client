@@ -8,8 +8,9 @@ import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { MovieCard } from '../components/movies/movieCard.component';
 import { MovieBackDrop, PopUp } from '../components/ui';
-import { MovieForm } from '../components/movies/addMovieForm';
+import { MovieForm } from '../components/movies/addMovieForm.component';
 import { EditMovieForm } from '../components/movies/editMovieForm.component';
+import { DeleteMovieForm } from '../components/movies/deleteMovieForm.component';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -72,6 +73,11 @@ export const DashboardScreen = () => {
     movieId: null,
   });
   const [addMoviePopUp, setAddMoviePopUp] = useState({ isHidden: true });
+  const [deleteMoviePopUp, setDeleteMoviePopUp] = useState({
+    isHidden: true,
+    movieId: null,
+    movieTitle: null,
+  });
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -98,8 +104,15 @@ export const DashboardScreen = () => {
         movieImage={movie.images[0]}
         movieDescription={movie.description}
         movieGenre={movie.genre}
-        triggerPopUp={(prevState) =>
+        triggerPopUp={() =>
           setEditMoviePopUp({ isHidden: false, movieId: movie._id })
+        }
+        triggerConfirmDeletePopUp={() =>
+          setDeleteMoviePopUp({
+            isHidden: false,
+            movieId: movie._id,
+            movieTitle: movie.title,
+          })
         }
       />
     );
@@ -148,6 +161,19 @@ export const DashboardScreen = () => {
       <PopUp isHidden={addMoviePopUp.isHidden} width='70vw' height='80vh'>
         <MovieForm formTitle='Add a movie' />
       </PopUp>
+      <PopUp isHidden={deleteMoviePopUp.isHidden} width='40vw' height='30vh'>
+        <DeleteMovieForm
+          movieId={deleteMoviePopUp.movieId}
+          movieTitle={deleteMoviePopUp.movieTitle}
+          cancelDelete={() =>
+            setDeleteMoviePopUp({
+              isHidden: !deleteMoviePopUp.isHidden,
+              movieId: null,
+              movieTitle: null,
+            })
+          }
+        />
+      </PopUp>
       <MovieBackDrop
         togglePopUp={() =>
           setEditMoviePopUp({
@@ -164,6 +190,16 @@ export const DashboardScreen = () => {
           })
         }
         isHidden={addMoviePopUp.isHidden}
+      />
+      <MovieBackDrop
+        togglePopUp={() =>
+          setDeleteMoviePopUp({
+            isHidden: !deleteMoviePopUp.isHidden,
+            movieId: null,
+            movieTitle: null,
+          })
+        }
+        isHidden={deleteMoviePopUp.isHidden}
       />
     </>
   );

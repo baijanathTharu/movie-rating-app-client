@@ -86,3 +86,49 @@ export const Textarea = styled.textarea`
   color: black;
   resize: vertical;
 `;
+
+export const P = styled.p`
+  font-size: 24px;
+  color: wheat;
+  text-align: center;
+  margin: 10px;
+`;
+
+export const ActionDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 30px auto;
+  width: ${(props) => props.width};
+`;
+
+export const TitleSpan = styled.span`
+  color: tomato;
+  font-weight: bold;
+`;
+
+export const DeleteBtn = styled.button`
+  background-color: red;
+  padding: 10px 15px;
+  color: white;
+  outline: none;
+  border: 0;
+  font-size: 18px;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(255, 0, 0, 0.8);
+  }
+`;
+
+export const CancelBtn = styled.button`
+  background-color: green;
+  padding: 10px 15px;
+  color: white;
+  outline: none;
+  border: 0;
+  font-size: 18px;
+  cursor: pointer;
+  :hover {
+    background-color: rgba(0, 255, 0, 0.8);
+  }
+`;

@@ -9,7 +9,11 @@ const PopDiv = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: ${(props) => (props.isHidden ? 'none' : 'block')};
+  display: ${(props) => (props.isHidden ? 'none' : 'grid')};
+  grid-template-columns: 1fr;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
   overflow-y: auto;
 `;
