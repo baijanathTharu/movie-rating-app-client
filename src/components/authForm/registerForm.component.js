@@ -15,6 +15,7 @@ import { handleError } from '../../utils/handleError';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { UserContext } from '../../context';
 import { useHistory } from 'react-router';
+import { Loader } from '../ui';
 
 export const RegisterForm = () => {
   const [formState, setFormState] = useState({
@@ -23,6 +24,7 @@ export const RegisterForm = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const userContext = useContext(UserContext);
 
@@ -40,11 +42,13 @@ export const RegisterForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const [regError, res] = await handleError(
       POST('/auth/register', formState.data)
     );
     if (regError) {
-      notifyError(JSON.stringify(regError.response.data.error.message));
+      setIsSubmitting(false);
+      return notifyError(JSON.stringify(regError.response.data.error.message));
     }
     if (res) {
       localStorage.setItem('token', res.data.token);
@@ -153,9 +157,10 @@ export const RegisterForm = () => {
         />
       </Div>
       <Div>
-        <Button type='submit' disabled={!isValid}>
+        <Button type='submit' disabled={!isValid} isHidden={isSubmitting}>
           Submit
         </Button>
+        <Loader width='50px' height='50px' isHidden={!isSubmitting} />
       </Div>
     </Form>
   );

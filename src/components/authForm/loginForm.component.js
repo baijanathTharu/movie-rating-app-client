@@ -16,6 +16,7 @@ import { handleError } from '../../utils/handleError';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { UserContext } from '../../context';
 import { useHistory } from 'react-router';
+import { Loader } from '../ui';
 
 export const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -24,6 +25,8 @@ export const LoginForm = () => {
   });
 
   const [isValid, setIsValid] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const userContext = useContext(UserContext);
 
@@ -59,6 +62,7 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const [loginError, res] = await handleError(
       POST('/auth/login', formState.data)
     );
@@ -70,9 +74,9 @@ export const LoginForm = () => {
       localStorage.setItem('role', res.data.user.role || '1');
       notifySuccess('Login success');
       userContext.setUserState(res.data.user);
-
-      history.push('/movies');
+      return history.push('/movies');
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -131,9 +135,10 @@ export const LoginForm = () => {
         <input type='checkbox' name='remember_me' onChange={handleChange} />
       </CheckBoxDiv>
       <Div>
-        <Button type='submit' disabled={!isValid}>
+        <Button type='submit' disabled={!isValid} isHidden={isSubmitting}>
           Submit
         </Button>
+        <Loader width='50px' height='50px' isHidden={!isSubmitting} />
       </Div>
     </Form>
   );

@@ -11,6 +11,7 @@ import {
 import { GET, PUT } from '../../utils/httpClient';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { handleError } from '../../utils/handleError';
+import { Loader } from '../ui';
 
 const FormItems = [
   {
@@ -59,6 +60,8 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
   const [formState, setFormState] = useState({});
   const [editedFormState, setEditedFormState] = useState({});
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     const fetchSingleMovie = async () => {
       const [movieError, movieRes] = await handleError(
@@ -90,6 +93,8 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
     }
   }, [movieId]);
 
+  console.log('formState: ', formState);
+
   const handleChange = (e) => {
     let { name, value, files } = e.target;
     if (name === 'image') {
@@ -107,6 +112,7 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const data = new FormData();
     for (const [key, value] of Object.entries(editedFormState)) {
       data.append(key, value);
@@ -116,8 +122,11 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
       PUT(`/movies/${movieId}`, data, {}, true)
     );
     if (editMovieError) {
+      setIsSubmitting(false);
       return notifyError('Movie editing failed!');
     }
+    setIsSubmitting(false);
+    // TODO:: close edit form
     return notifySuccess('movie edited successfully!');
   };
 
@@ -151,7 +160,10 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
         />
       </Div>
       <Div>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' isHidden={isSubmitting}>
+          Submit
+        </Button>
+        <Loader width='50px' height='50px' isHidden={!isSubmitting} />
       </Div>
     </Form>
   );

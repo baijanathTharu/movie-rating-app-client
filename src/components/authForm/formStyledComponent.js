@@ -53,6 +53,7 @@ export const Button = styled.button`
   border: 0;
   border-radius: 5px;
   outline: none;
+  display: ${(props) => (props.isHidden ? 'none' : 'inline-block')};
   :hover {
     background-color: ${(props) =>
       props.disabled ? null : 'rgba(0, 0, 0, 0.8)'};

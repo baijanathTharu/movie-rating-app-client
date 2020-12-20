@@ -11,6 +11,7 @@ import {
 import { POST } from '../../utils/httpClient';
 import { notifyError, notifySuccess } from '../../utils/notifyError';
 import { handleError } from '../../utils/handleError';
+import { Loader } from '../ui';
 
 const FormItems = [
   {
@@ -61,6 +62,7 @@ const FormItems = [
 
 export const MovieForm = ({ formTitle, movieId }) => {
   const [formState, setFormState] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     let { name, value, files } = e.target;
@@ -77,6 +79,7 @@ export const MovieForm = ({ formTitle, movieId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const data = new FormData();
     FormItems.forEach((item) => {
       data.append(item.name, formState[item.name]);
@@ -86,9 +89,11 @@ export const MovieForm = ({ formTitle, movieId }) => {
       POST('/movies', data, {}, true)
     );
     if (movieError) {
+      setIsSubmitting(false);
       return notifyError('Movie adding failed!');
     }
-    // TODO:: show added movie
+    setIsSubmitting(false);
+    // TODO:: show added movie and clear the form
     return notifySuccess('movie added successfully!');
   };
 
@@ -118,7 +123,10 @@ export const MovieForm = ({ formTitle, movieId }) => {
       </Div>
 
       <Div>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' isHidden={isSubmitting}>
+          Submit
+        </Button>
+        <Loader width='50px' height='50px' isHidden={!isSubmitting} />
       </Div>
     </Form>
   );
