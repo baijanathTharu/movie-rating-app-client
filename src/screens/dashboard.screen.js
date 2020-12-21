@@ -11,6 +11,7 @@ import { MovieBackDrop, PopUp } from '../components/ui';
 import { MovieForm } from '../components/movies/addMovieForm.component';
 import { EditMovieForm } from '../components/movies/editMovieForm.component';
 import { DeleteMovieForm } from '../components/movies/deleteMovieForm.component';
+import { Pagination } from '../components/ui/pagination.component';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -79,6 +80,11 @@ export const DashboardScreen = () => {
     movieTitle: null,
   });
   const [movies, setMovies] = useState([]);
+  const [pageDetails, setPageDetails] = useState({
+    page: 1,
+    totalPage: null,
+    limit: 5,
+  });
 
   const closeEditPopUp = () =>
     setEditMoviePopUp({
@@ -98,20 +104,31 @@ export const DashboardScreen = () => {
       movieTitle: null,
     });
 
+  const fetchMovies = async (page, limit = pageDetails.limit) => {
+    const [moviesFetchError, moviesRes] = await handleError(
+      GET(`/movies?page=${page}&limit=${limit}`, {})
+    );
+    if (moviesFetchError) {
+      return notifyError('Movies Fetching failed');
+    }
+    notifySuccess('Movies Fetched!');
+    // console.log('res: ', moviesRes.data);
+    setPageDetails((prevState) => ({
+      ...prevState,
+      page: +moviesRes.data.currentPage,
+      totalPage: moviesRes.data.totalPages,
+    }));
+
+    setMovies(moviesRes.data.movie);
+  };
+
   useEffect(() => {
-    const fetchMovies = async () => {
-      const [moviesFetchError, moviesRes] = await handleError(
-        GET(`/movies`, {})
-      );
-      if (moviesFetchError) {
-        return notifyError('Movies Fetching failed');
-      }
-      notifySuccess('Movies Fetched!');
-      setMovies(moviesRes.data);
-    };
-    fetchMovies();
+    fetchMovies(1);
     return () => {};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log('currentpage: ', pageDetails.page);
 
   const MovieCards = movies.map((movie, idx) => {
     return (
@@ -158,6 +175,11 @@ export const DashboardScreen = () => {
       </SideDiv>
       <ContentContainerDiv>
         <MovieContainer>{MovieCards}</MovieContainer>
+        <Pagination
+          currentPage={pageDetails.page}
+          totalPage={pageDetails.totalPage}
+          fetchPage={(pageNo) => fetchMovies(pageNo)}
+        />
         <ToastContainer
           position='bottom-right'
           autoClose={5000}
