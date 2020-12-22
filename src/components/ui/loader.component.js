@@ -26,11 +26,23 @@ const LoaderDiv = styled.div`
   border-bottom: 10px solid black;
   animation: ${Rotate} 1s infinite;
   display: ${(props) => (props.isHidden ? 'none' : 'inline-block')};
+  position: ${(props) => props.position};
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
+  transform: translate(-50%, -50%);
+  z-index: 100;
 `;
 
-export const Loader = ({ isHidden, width, height }) => {
+export const Loader = ({ isHidden, width, height, position, top, left }) => {
   const Load = (
-    <LoaderDiv width={width} height={height} isHidden={isHidden}></LoaderDiv>
+    <LoaderDiv
+      width={width}
+      height={height}
+      position={position}
+      top={top}
+      left={left}
+      isHidden={isHidden}
+    ></LoaderDiv>
   );
   return isHidden ? null : Load;
 };

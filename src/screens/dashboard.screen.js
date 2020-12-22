@@ -7,7 +7,7 @@ import { handleError } from '../utils/handleError';
 import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { MovieCard } from '../components/movies/movieCard.component';
-import { MovieBackDrop, PopUp } from '../components/ui';
+import { Loader, MovieBackDrop, PopUp } from '../components/ui';
 import { MovieForm } from '../components/movies/addMovieForm.component';
 import { EditMovieForm } from '../components/movies/editMovieForm.component';
 import { DeleteMovieForm } from '../components/movies/deleteMovieForm.component';
@@ -85,6 +85,7 @@ export const DashboardScreen = () => {
     totalPage: null,
     limit: 5,
   });
+  const [isFetching, setIsFetching] = useState(false);
 
   const closeEditPopUp = () =>
     setEditMoviePopUp({
@@ -105,6 +106,7 @@ export const DashboardScreen = () => {
     });
 
   const fetchMovies = async (page, limit = pageDetails.limit) => {
+    setIsFetching(true);
     const [moviesFetchError, moviesRes] = await handleError(
       GET(`/movies?page=${page}&limit=${limit}`, {})
     );
@@ -118,7 +120,7 @@ export const DashboardScreen = () => {
       page: +moviesRes.data.currentPage,
       totalPage: moviesRes.data.totalPages,
     }));
-
+    setIsFetching(false);
     setMovies(moviesRes.data.movie);
   };
 
@@ -174,6 +176,14 @@ export const DashboardScreen = () => {
         </MenuUL>
       </SideDiv>
       <ContentContainerDiv>
+        <Loader
+          position='absolute'
+          top='50%'
+          left='50%'
+          height='100px'
+          width='100px'
+          isHidden={!isFetching}
+        />
         <MovieContainer>{MovieCards}</MovieContainer>
         <Pagination
           currentPage={pageDetails.page}
