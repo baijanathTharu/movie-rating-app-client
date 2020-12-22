@@ -2,17 +2,17 @@ import styled from 'styled-components';
 
 const Div = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   height: 50px;
 `;
 
 const DivItems = styled.div`
-  background-color: ${(props) => (props.isActive ? 'red' : 'white')};
+  background-color: ${(props) => (props.isActive ? 'orangered' : 'wheat')};
   color: black;
-  padding: 10px;
-  font-size: 18px;
+  padding: 15px;
+  font-size: 16px;
   cursor: pointer;
 `;
 
@@ -28,7 +28,7 @@ export const Pagination = ({ currentPage, totalPage, fetchPage }) => {
     <DivItems
       key={idx}
       isActive={pageNo.isActive}
-      onClick={() => fetchPage(pageNo.number)}
+      onClick={pageNo.isActive ? null : () => fetchPage(pageNo.number)}
     >
       {pageNo.number}
     </DivItems>
