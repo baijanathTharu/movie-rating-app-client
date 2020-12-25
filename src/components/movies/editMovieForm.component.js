@@ -56,11 +56,19 @@ const FormItems = [
   },
 ];
 
-export const EditMovieForm = ({ formTitle, movieId }) => {
+export const EditMovieForm = ({ formTitle, movieId, closeForm }) => {
   const [formState, setFormState] = useState({});
   const [editedFormState, setEditedFormState] = useState({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const clearForm = () => {
+    const clearFormState = {};
+    for (const keys of Object.keys(formState)) {
+      clearFormState[keys] = '';
+    }
+    setFormState(clearFormState);
+  };
 
   useEffect(() => {
     const fetchSingleMovie = async () => {
@@ -93,8 +101,6 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
     }
   }, [movieId]);
 
-  console.log('formState: ', formState);
-
   const handleChange = (e) => {
     let { name, value, files } = e.target;
     if (name === 'image') {
@@ -126,7 +132,8 @@ export const EditMovieForm = ({ formTitle, movieId }) => {
       return notifyError('Movie editing failed!');
     }
     setIsSubmitting(false);
-    // TODO:: close edit form
+    clearForm();
+    closeForm();
     return notifySuccess('movie edited successfully!');
   };
 

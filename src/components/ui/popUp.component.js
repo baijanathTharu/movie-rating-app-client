@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
+import { cloneElement } from 'react';
 
 const PopDiv = styled.div`
   width: ${(props) => props.width};
@@ -30,10 +31,13 @@ const CloseDiv = styled.div`
 `;
 
 export const PopUp = ({ width, height, isHidden, closePopUp, children }) => {
+  const updateChildrenWithProps = cloneElement(children, {
+    closeForm: closePopUp,
+  });
   return (
     <PopDiv width={width} height={height} isHidden={isHidden}>
       <ChildrenContainer>
-        {children}
+        {updateChildrenWithProps}
         <CloseDiv>
           <MdClose
             color='red'

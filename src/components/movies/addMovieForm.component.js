@@ -19,10 +19,6 @@ const FormItems = [
     name: 'title',
   },
   {
-    type: 'file',
-    name: 'image',
-  },
-  {
     type: 'date',
     name: 'releaseDate',
   },
@@ -60,9 +56,17 @@ const FormItems = [
   },
 ];
 
-export const MovieForm = ({ formTitle, movieId }) => {
+export const MovieForm = ({ formTitle, movieId, closeForm }) => {
   const [formState, setFormState] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const clearForm = () => {
+    const clearFormState = {};
+    for (const keys of Object.keys(formState)) {
+      clearFormState[keys] = '';
+    }
+    setFormState(clearFormState);
+  };
 
   const handleChange = (e) => {
     let { name, value, files } = e.target;
@@ -93,7 +97,9 @@ export const MovieForm = ({ formTitle, movieId }) => {
       return notifyError('Movie adding failed!');
     }
     setIsSubmitting(false);
-    // TODO:: show added movie and clear the form
+    // TODO:: show added movie
+    clearForm();
+    closeForm();
     return notifySuccess('movie added successfully!');
   };
 
@@ -105,6 +111,7 @@ export const MovieForm = ({ formTitle, movieId }) => {
         placeholder={item.name}
         name={item.name}
         onChange={handleChange}
+        value={formState[item.name] && formState[item.name]}
       />
     </Div>
   ));
@@ -121,7 +128,10 @@ export const MovieForm = ({ formTitle, movieId }) => {
           onChange={handleChange}
         />
       </Div>
-
+      <Div>
+        <Label htmlFor='file'>IMAGE</Label>
+        <Input name='image' type='file' onChange={handleChange} />
+      </Div>
       <Div>
         <Button type='submit' isHidden={isSubmitting}>
           Submit
