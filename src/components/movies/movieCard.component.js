@@ -17,9 +17,15 @@ const CardDiv = styled.div`
   }
 `;
 
-const MovieImage = styled.img`
-  object-fit: contain;
+const ImgContainer = styled.div`
+  height: 200px;
   width: 100%;
+`;
+
+const MovieImage = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
   margin-bottom: 10px;
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
@@ -62,7 +68,9 @@ export const MovieCard = ({
 
   return (
     <CardDiv>
-      <MovieImage src={imageSrc} />
+      <ImgContainer>
+        <MovieImage src={imageSrc} />
+      </ImgContainer>
       <H3>{movieName}</H3>
       <P>{movieDescription.slice(0, 50)}...</P>
       <ActionDiv>
