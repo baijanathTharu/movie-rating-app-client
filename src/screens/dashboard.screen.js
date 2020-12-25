@@ -12,6 +12,8 @@ import { MovieForm } from '../components/movies/addMovieForm.component';
 import { EditMovieForm } from '../components/movies/editMovieForm.component';
 import { DeleteMovieForm } from '../components/movies/deleteMovieForm.component';
 import { Pagination } from '../components/ui/pagination.component';
+import { MdLocalMovies, MdCreate } from 'react-icons/md';
+import { FaUsers } from 'react-icons/fa';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -65,6 +67,14 @@ const MovieContainer = styled.div`
   grid-gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   padding: 20px;
+`;
+
+const Div = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 18px;
+  cursor: ${(props) => (props.showPointerOnHover ? 'pointer' : null)};
 `;
 
 export const DashboardScreen = () => {
@@ -130,8 +140,6 @@ export const DashboardScreen = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('currentpage: ', pageDetails.page);
-
   const MovieCards = movies.map((movie, idx) => {
     return (
       <MovieCard
@@ -161,18 +169,25 @@ export const DashboardScreen = () => {
         <H1>Movie Rating APP</H1>
         <MenuUL>
           <MenuLI>
-            <H3>Movies</H3>
+            <Div>
+              <H3>Movies</H3>
+              <MdLocalMovies />
+            </Div>
             <ItemsDiv>
-              <P onClick={() => setAddMoviePopUp({ isHidden: false })}>
-                Add movie
-              </P>
-              <P>Add movie</P>
-              <P>Add movie</P>
-              <P>Add movie</P>
-              <P>Add movie</P>
+              <Div showPointerOnHover={true}>
+                <P onClick={() => setAddMoviePopUp({ isHidden: false })}>
+                  Add new movie
+                </P>
+                <MdCreate />
+              </Div>
             </ItemsDiv>
           </MenuLI>
-          <MenuLI>Users</MenuLI>
+          <MenuLI>
+            <Div>
+              <H3>Users</H3>
+              <FaUsers />
+            </Div>
+          </MenuLI>
         </MenuUL>
       </SideDiv>
       <ContentContainerDiv>
