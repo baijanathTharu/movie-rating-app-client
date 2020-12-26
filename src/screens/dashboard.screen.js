@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +15,7 @@ import { DeleteMovieForm } from '../components/movies/deleteMovieForm.component'
 import { Pagination } from '../components/ui/pagination.component';
 import { MdLocalMovies, MdCreate } from 'react-icons/md';
 import { FaUsers } from 'react-icons/fa';
+import { IoMdLogOut } from 'react-icons/io';
 
 const SideDiv = styled.div`
   width: 300px;
@@ -59,7 +61,7 @@ const P = styled.p`
   font-size: 16px;
   font-weight: bold;
   margin: 10px 0;
-  color: wheat;
+  color: ${(props) => props.color || 'wheat'};
 `;
 
 const MovieContainer = styled.div`
@@ -79,6 +81,7 @@ const Div = styled.div`
 
 export const DashboardScreen = () => {
   const userContext = useContext(UserContext);
+  const history = useHistory();
   const [editMoviePopUp, setEditMoviePopUp] = useState({
     isHidden: true,
     movieId: null,
@@ -132,6 +135,11 @@ export const DashboardScreen = () => {
     }));
     setIsFetching(false);
     setMovies(moviesRes.data.movie);
+  };
+
+  const handleLogout = () => {
+    userContext.setUserState({});
+    history.push('/');
   };
 
   useEffect(() => {
@@ -189,6 +197,10 @@ export const DashboardScreen = () => {
             </Div>
           </MenuLI>
         </MenuUL>
+        <Div showPointerOnHover={true} onClick={handleLogout}>
+          <P color='tomato'>LogOut</P>
+          <IoMdLogOut color='tomato' />
+        </Div>
       </SideDiv>
       <ContentContainerDiv>
         <Loader
