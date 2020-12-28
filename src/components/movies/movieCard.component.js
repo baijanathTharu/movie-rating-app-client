@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MdDelete, MdEdit } from 'react-icons/md';
+import { MdDelete, MdEdit, MdMore } from 'react-icons/md';
 
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
@@ -54,6 +54,11 @@ const ActionDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
 `;
 
+const Span = styled.span`
+  color: ${(props) => props.color};
+  cursor: pointer;
+`;
+
 export const MovieCard = ({
   width,
   movieName,
@@ -61,11 +66,26 @@ export const MovieCard = ({
   movieDescription,
   triggerPopUp,
   triggerConfirmDeletePopUp,
+  hasAdminOptions = true,
 }) => {
   const imageSrc = movieImage
     ? `${IMG_URL}/${movieImage}`
     : `https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg`;
 
+  const adminActions = hasAdminOptions ? (
+    <>
+      <MdEdit color='green' cursor='pointer' onClick={triggerPopUp} />
+      <MdDelete
+        color='red'
+        cursor='pointer'
+        onClick={triggerConfirmDeletePopUp}
+      />
+    </>
+  ) : (
+    <Span color='wheat'>
+      More <MdMore color='wheat' />
+    </Span>
+  );
   return (
     <CardDiv>
       <ImgContainer>
@@ -73,14 +93,7 @@ export const MovieCard = ({
       </ImgContainer>
       <H3>{movieName}</H3>
       <P>{movieDescription.slice(0, 50)}...</P>
-      <ActionDiv>
-        <MdEdit color='green' cursor='pointer' onClick={triggerPopUp} />
-        <MdDelete
-          color='red'
-          cursor='pointer'
-          onClick={triggerConfirmDeletePopUp}
-        />
-      </ActionDiv>
+      <ActionDiv>{adminActions}</ActionDiv>
     </CardDiv>
   );
 };
