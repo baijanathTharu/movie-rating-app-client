@@ -11,7 +11,7 @@ import { Loader } from '../components/ui/loader.component';
 
 const Hero = styled.div`
   width: 100%;
-  height: 86vh;
+  height: 93vh;
 `;
 
 const HeroContent = styled.div`

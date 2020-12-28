@@ -13,6 +13,10 @@ const navLinksWhenNotLoggedIn = [
     path: '/register',
     name: 'Register',
   },
+  {
+    path: '/movies',
+    name: 'Movies',
+  },
 ];
 
 const navLinksWhenLoggedIn = [
@@ -35,12 +39,19 @@ const navLinks = [
 ];
 
 const Nav = styled.nav`
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: ${(props) =>
+    props.visible ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.9)'};
   color: wheat;
   min-height: 7vh;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  transform: ${(props) =>
+    props.visible ? 'translateY(0)' : 'translateY(-7vh)'};
+  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 `;
 
 const H1 = styled.h1`
@@ -84,8 +95,9 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
+export const Header = ({ visible, toggleDrawer, drawer: { isVisible } }) => {
   const history = useHistory();
+
   const userContext = useContext(UserContext);
 
   const generateListItem = (path, name, idx) => (
@@ -123,7 +135,7 @@ export const Header = ({ toggleDrawer, drawer: { isVisible } }) => {
     ) : null;
 
   return (
-    <Nav>
+    <Nav visible={visible}>
       <H1>Movie Rating App</H1>
       <Ul>
         {navListWhenNotLoggedIn}

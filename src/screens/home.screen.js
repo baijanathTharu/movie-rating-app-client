@@ -6,14 +6,14 @@ import banner from '../images/movie-rating-app-hero.webp';
 
 const Hero = styled.div`
   width: 100%;
-  height: 86vh;
+  height: 93vh;
 `;
 
 const HeroContent = styled.div`
   position: absolute;
   top: 7vh;
   width: 100%;
-  height: 86vh;
+  height: 93vh;
   padding: 10px;
   display: grid;
   grid-gap: 10px;
