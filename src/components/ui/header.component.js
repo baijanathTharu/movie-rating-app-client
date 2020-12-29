@@ -31,7 +31,7 @@ const navLinks = [
 
 const Nav = styled.nav`
   background-color: ${(props) =>
-    props.visible ? 'rgba(0, 0, 0, 0.5)' : 'rgba(0, 0, 0, 0.9)'};
+    props.top ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.5)'};
   color: wheat;
   min-height: 7vh;
   display: flex;
@@ -40,7 +40,7 @@ const Nav = styled.nav`
   transform: ${(props) =>
     props.visible ? 'translateY(0)' : 'translateY(-7vh)'};
   transition: transform 0.3s ease-in-out;
-  position: fixed;
+  position: ${(props) => (props.visible && props.top ? null : 'fixed')};
   width: 100%;
   z-index: 100;
 `;
@@ -86,7 +86,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-export const Header = ({ visible, toggleDrawer, drawer: { isVisible } }) => {
+export const Header = ({
+  visible,
+  top,
+  toggleDrawer,
+  drawer: { isVisible },
+}) => {
   const history = useHistory();
 
   const userContext = useContext(UserContext);
@@ -126,7 +131,7 @@ export const Header = ({ visible, toggleDrawer, drawer: { isVisible } }) => {
     ) : null;
 
   return (
-    <Nav visible={visible}>
+    <Nav visible={visible} top={top}>
       <H1>Movie Rating App</H1>
       <Ul>
         {navListWhenNotLoggedIn}

@@ -9,6 +9,7 @@ import { BackDrop } from './ui';
 
 const ChildrenDiv = styled.div`
   min-height: 93vh;
+  background-color: wheat;
 `;
 
 export const Layout = ({ children }) => {
@@ -17,6 +18,7 @@ export const Layout = ({ children }) => {
   const [header, setHeader] = useState({
     isVisible: true,
     prevScrollPos: window.pageYOffset,
+    atTop: true,
   });
 
   const toggleDrawer = (drawerState) => {
@@ -27,15 +29,17 @@ export const Layout = ({ children }) => {
     const scrollHandler = () => {
       const currentScrollPos = window.pageYOffset;
       const visible = currentScrollPos > header.prevScrollPos;
-      if (currentScrollPos < 70) {
+      if (currentScrollPos < 200) {
         return setHeader({
           isVisible: true,
           prevScrollPos: currentScrollPos,
+          atTop: true,
         });
       }
       setHeader({
         isVisible: visible,
         prevScrollPos: currentScrollPos,
+        atTop: false,
       });
     };
     window.addEventListener('scroll', scrollHandler);
@@ -48,6 +52,7 @@ export const Layout = ({ children }) => {
       <SideDrawer drawer={drawer} />
       <Header
         visible={header.isVisible}
+        top={header.atTop}
         toggleDrawer={setDrawer}
         drawer={drawer}
       />

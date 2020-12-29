@@ -71,7 +71,6 @@ export const MoviesScreen = () => {
       notifySuccess('Movies fetched successfully.');
       setHasFetched(true);
       setMoviesData(moviesRes.data);
-      console.log('fetched: ', moviesRes);
     };
     fetchMovies();
   }, []);
@@ -94,7 +93,7 @@ export const MoviesScreen = () => {
 
   return (
     <Layout>
-      <Hero
+      {/* <Hero
         style={{
           backgroundImage: 'url(' + banner + ')',
           backgroundRepeat: 'no-repeat',
@@ -113,7 +112,7 @@ export const MoviesScreen = () => {
           </H2>
           <H2 color='wheat'>Browse Movies Now</H2>
         </Div>
-      </HeroContent>
+      </HeroContent> */}
       <MovieContainer bgColor='wheat'>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
         {moviesCards}
