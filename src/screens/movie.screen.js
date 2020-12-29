@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Layout } from '../components/layout.component';
 import banner from '../images/movie-rating-app-hero.webp';
@@ -55,42 +54,29 @@ const MovieContainer = styled.div`
   background-color: ${(props) => props.bgColor};
 `;
 
-export const MoviesScreen = () => {
+export const MovieScreen = ({ match }) => {
+  const {
+    params: { movieId },
+  } = match;
   const userContext = useContext(UserContext);
-  const [moviesData, setMoviesData] = useState({});
+  const [movieData, setMovieData] = useState({});
   const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const [moviesErr, moviesRes] = await handleError(
-        GET(`/search/movies`, {}, false)
+    const fetchMovie = async () => {
+      const [moviesErr, movieRes] = await handleError(
+        GET(`/search/movies?id=${movieId}`, {}, false)
       );
       if (moviesErr) {
-        return notifyError('Movies could not be fetched!');
+        return notifyError('Movie could not be fetched!');
       }
-      notifySuccess('Movies fetched successfully.');
+      notifySuccess('Movie fetched successfully.');
       setHasFetched(true);
-      setMoviesData(moviesRes.data);
-      console.log('fetched: ', moviesRes);
+      setMovieData(movieRes.data);
+      console.log('fetched: ', movieRes);
     };
-    fetchMovies();
-  }, []);
-
-  const moviesCards =
-    moviesData.data &&
-    moviesData.data.map((movie, idx) => {
-      return (
-        <Link to={`/movies/${movie._id}`} key={idx}>
-          <MovieCard
-            width='50%'
-            hasAdminOptions={false}
-            movieName={movie.title}
-            movieImage={movie.images}
-            movieDescription={movie.description}
-          />
-        </Link>
-      );
-    });
+    fetchMovie();
+  }, [movieId]);
 
   return (
     <Layout>
@@ -111,12 +97,12 @@ export const MoviesScreen = () => {
               ? userContext.userState.username
               : 'Stranger'}
           </H2>
-          <H2 color='wheat'>Browse Movies Now</H2>
+          <H2 color='wheat'>See Single Movie</H2>
         </Div>
       </HeroContent>
       <MovieContainer bgColor='wheat'>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
-        {moviesCards}
+        {movieData.data && movieData.data[0].title && movieData.data[0].title}
       </MovieContainer>
     </Layout>
   );

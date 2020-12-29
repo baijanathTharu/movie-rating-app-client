@@ -13,10 +13,6 @@ const navLinksWhenNotLoggedIn = [
     path: '/register',
     name: 'Register',
   },
-  {
-    path: '/movies',
-    name: 'Movies',
-  },
 ];
 
 const navLinksWhenLoggedIn = [
@@ -28,13 +24,8 @@ const navLinksWhenLoggedIn = [
 
 const navLinks = [
   {
-    path: '/about',
-    name: 'About',
-  },
-
-  {
-    path: '/contact',
-    name: 'Contact',
+    path: '/movies',
+    name: 'Movies',
   },
 ];
 

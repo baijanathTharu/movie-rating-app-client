@@ -3,6 +3,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { UserContext } from './context';
 import { HomeScreen, MoviesScreen, RegisterScreen } from './screens';
 import { DashboardScreen } from './screens';
+import { MovieScreen } from './screens';
 
 const ProtectedRoute = ({ component: Component, user, ...rest }) =>
   user ? (
@@ -33,6 +34,7 @@ const App = () => {
             path='/dashboard'
             component={DashboardScreen}
           />
+          <Route path='/movies/:movieId' component={MovieScreen} />
           <Route path='/movies' component={MoviesScreen} />
           <Route
             path='/register'
