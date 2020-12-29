@@ -20,7 +20,7 @@ export const Pagination = ({ currentPage, totalPage, fetchPage }) => {
   const pagesArr = [];
   for (let i = 1; i <= totalPage; i++) {
     pagesArr[i] = { isActive: false, number: i };
-    if (currentPage === i) {
+    if (+currentPage === i) {
       pagesArr[i].isActive = true;
     }
   }
