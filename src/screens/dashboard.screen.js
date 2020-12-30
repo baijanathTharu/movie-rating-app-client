@@ -67,7 +67,7 @@ const P = styled.p`
 const MovieContainer = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   padding: 20px;
 `;
 

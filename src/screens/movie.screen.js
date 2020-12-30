@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import ReactPlayer from 'react-player/youtube';
 import { Layout } from '../components/layout.component';
 import { UserContext } from '../context';
 import { handleError } from '../utils/handleError';
@@ -38,13 +39,24 @@ const Img = styled.img`
 const DetalDiv = styled.div`
   margin: 10px auto;
   display: flex;
-  /* justify-content: space-between; */
 `;
 
 const P = styled.p`
   color: ${(props) => props.color || 'black'};
   font-size: 18px;
   margin: 0 5px;
+`;
+
+const VideoDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  @media (min-width: 768px) {
+    grid-column: 1/3;
+    height: 400px;
+  }
 `;
 
 const IMG_URL = process.env.REACT_APP_IMG_URL;
@@ -86,7 +98,7 @@ export const MovieScreen = ({ match }) => {
     movieData.data &&
     movieData.data[0].releaseDate &&
     new Date(movieData.data[0].releaseDate.slice(0, 10)).toUTCString();
-  console.log(relDate);
+
   return (
     <Layout>
       <MovieDiv>
@@ -144,9 +156,18 @@ export const MovieScreen = ({ match }) => {
                 movieData.data[0].description}
             </P>
           </DetalDiv>
-
-          {/* trailerLink: "https://www.youtube.com/watch?v=YoHD9XEInc0" */}
         </Div>
+        <VideoDiv>
+          <ReactPlayer
+            url={
+              movieData.data &&
+              movieData.data[0].trailerLink &&
+              movieData.data[0].trailerLink
+            }
+            width='100%'
+            // height='100%'
+          />
+        </VideoDiv>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
       </MovieDiv>
     </Layout>

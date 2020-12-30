@@ -29,7 +29,7 @@ export const Layout = ({ children }) => {
     const scrollHandler = () => {
       const currentScrollPos = window.pageYOffset;
       const visible = currentScrollPos > header.prevScrollPos;
-      if (currentScrollPos < 200) {
+      if (currentScrollPos < 300) {
         return setHeader({
           isVisible: true,
           prevScrollPos: currentScrollPos,
