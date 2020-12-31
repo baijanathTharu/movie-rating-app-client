@@ -8,12 +8,14 @@ import { GET } from '../utils/httpClient';
 import { notifyError, notifySuccess } from '../utils/notifyError';
 import { Loader } from '../components/ui/loader.component';
 import dayjs from 'dayjs';
+import StarRatings from 'react-star-ratings';
 
 const MovieDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
   margin: 0 auto;
+  padding-bottom: 60px;
   width: 80%;
   /* border: 1px solid red; */
 `;
@@ -80,7 +82,7 @@ export const MovieScreen = ({ match }) => {
       notifySuccess('Movie fetched successfully.');
       setHasFetched(true);
       setMovieData(movieRes.data);
-      console.log('fetched: ', movieRes);
+      // console.log('fetched: ', movieRes);
     };
     fetchMovie();
   }, [movieId]);
@@ -99,6 +101,15 @@ export const MovieScreen = ({ match }) => {
     movieData.data[0].releaseDate &&
     new Date(movieData.data[0].releaseDate.slice(0, 10)).toUTCString();
 
+  const ratingValArr = [];
+  if (movieData.data && movieData.data[0].ratings.length) {
+    movieData.data[0].ratings.map(({ point }) => ratingValArr.push(point));
+  }
+
+  const ratingVal = ratingValArr.length
+    ? ratingValArr.reduce((prev, curr) => prev + curr, 0) / ratingValArr.length
+    : 0;
+
   return (
     <Layout>
       <MovieDiv>
@@ -111,6 +122,15 @@ export const MovieScreen = ({ match }) => {
               movieData.data[0].title &&
               movieData.data[0].title}
           </H2>
+          <DetalDiv>
+            <StarRatings
+              rating={ratingVal}
+              starRatedColor='orangered'
+              numberOfStars={5}
+              name='rating'
+              starEmptyColor='rgba(0,0,0, 0.1)'
+            />
+          </DetalDiv>
           <DetalDiv>
             <P>Genre: </P>
             <P color='orangered'>
@@ -159,13 +179,14 @@ export const MovieScreen = ({ match }) => {
         </Div>
         <VideoDiv>
           <ReactPlayer
+            style={{ border: '1px solid black' }}
             url={
               movieData.data &&
               movieData.data[0].trailerLink &&
               movieData.data[0].trailerLink
             }
             width='100%'
-            // height='100%'
+            height='100%'
           />
         </VideoDiv>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
