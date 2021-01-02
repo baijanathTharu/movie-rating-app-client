@@ -29,6 +29,14 @@ const H2 = styled.h2`
   margin: 10px 0;
 `;
 
+const H3 = styled.h3`
+  color: ${(props) => props.color};
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
+  margin: 10px 0;
+`;
+
 const ImgDiv = styled.div`
   background-color: white;
 `;
@@ -123,6 +131,21 @@ export const MovieScreen = ({ match }) => {
     ? ratingValArr.reduce((prev, curr) => prev + curr, 0) / ratingValArr.length
     : 0;
 
+  const Reviews =
+    movieData &&
+    movieData.data &&
+    movieData.data[0].ratings.map(({ message, point, user }, id) => {
+      return (
+        <MovieRatingCard
+          key='id'
+          imageName={null}
+          username={user}
+          ratingPoint={point}
+          comment={message}
+        />
+      );
+    });
+
   return (
     <Layout>
       <MovieDiv>
@@ -203,10 +226,8 @@ export const MovieScreen = ({ match }) => {
           />
         </VideoDiv>
         <ReviewsContainer>
-          <MovieRatingCard />
-          <MovieRatingCard />
-          <MovieRatingCard />
-          <MovieRatingCard />
+          <H3>REVIEWS</H3>
+          {Reviews}
         </ReviewsContainer>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
       </MovieDiv>

@@ -43,28 +43,38 @@ const ReviewContainer = styled.div``;
 
 const P = styled.p``;
 
-export const MovieRatingCard = () => {
+const IMG_URL = process.env.REACT_APP_IMG_URL;
+
+export const MovieRatingCard = ({
+  imageName,
+  username,
+  ratingPoint,
+  comment,
+}) => {
+  const imgSrc = imageName
+    ? `${IMG_URL}/${imageName}`
+    : 'https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg';
   return (
     <CardDiv>
       <CardHeader>
         <ImgDiv>
-          <Img src='https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg' />
+          <Img src={imgSrc} />
         </ImgDiv>
-        <UserTitle>John Doe</UserTitle>
+        <UserTitle>{username}</UserTitle>
       </CardHeader>
       <CardBody>
         <StarContainer>
           <StarRatings
-            rating={2}
+            rating={ratingPoint}
             starRatedColor='orangered'
-            numberOfStars={5}
+            numberOfStars={ratingPoint}
             name='rating'
             starDimension='30px'
             starEmptyColor='rgba(0,0,0, 0.1)'
           />
         </StarContainer>
         <ReviewContainer>
-          <P>This is some review for this movie.</P>
+          <P>{comment}</P>
         </ReviewContainer>
       </CardBody>
     </CardDiv>
