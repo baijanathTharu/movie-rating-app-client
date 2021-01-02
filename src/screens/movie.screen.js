@@ -103,7 +103,6 @@ export const MovieScreen = ({ match }) => {
       notifySuccess('Movie fetched successfully.');
       setHasFetched(true);
       setMovieData(movieRes.data);
-      console.log('fetched: ', movieRes);
     };
     fetchMovie();
   }, [movieId]);
@@ -139,7 +138,7 @@ export const MovieScreen = ({ match }) => {
         <MovieRatingCard
           key='id'
           imageName={null}
-          username={user}
+          userId={user}
           ratingPoint={point}
           comment={message}
         />

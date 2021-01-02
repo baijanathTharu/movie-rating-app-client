@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
+import { handleError } from '../../utils/handleError';
+import { GET } from '../../utils/httpClient';
 
 const CardDiv = styled.div`
   margin: 20px 0;
@@ -47,20 +50,37 @@ const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 export const MovieRatingCard = ({
   imageName,
-  username,
+  userId,
   ratingPoint,
   comment,
 }) => {
+  const [reviewUser, setReviewUser] = useState({});
+
   const imgSrc = imageName
     ? `${IMG_URL}/${imageName}`
     : 'https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg';
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const [userErr, userRes] = await handleError(
+        GET(`/users/${userId}`, {}, false)
+      );
+      if (userErr) {
+        console.log('err: ', userErr);
+        return;
+      }
+      setReviewUser({ username: userRes.data.username });
+    };
+    fetchUser();
+  }, [userId]);
+
   return (
     <CardDiv>
       <CardHeader>
         <ImgDiv>
           <Img src={imgSrc} />
         </ImgDiv>
-        <UserTitle>{username}</UserTitle>
+        <UserTitle>{reviewUser?.username}</UserTitle>
       </CardHeader>
       <CardBody>
         <StarContainer>
