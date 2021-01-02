@@ -9,6 +9,7 @@ import { notifyError, notifySuccess } from '../utils/notifyError';
 import { Loader } from '../components/ui/loader.component';
 import dayjs from 'dayjs';
 import StarRatings from 'react-star-ratings';
+import { MovieRatingCard } from '../components/movies/movieRatingCard.component';
 
 const MovieDiv = styled.div`
   display: grid;
@@ -28,12 +29,14 @@ const H2 = styled.h2`
   margin: 10px 0;
 `;
 
-const ImgDiv = styled.div``;
+const ImgDiv = styled.div`
+  background-color: white;
+`;
 
 const Div = styled.div``;
 
 const Img = styled.img`
-  object-fit: contain;
+  object-fit: cover;
   width: 100%;
   height: 100%;
 `;
@@ -61,6 +64,16 @@ const VideoDiv = styled.div`
   }
 `;
 
+const ReviewsContainer = styled.div`
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 768px) {
+    grid-column: 1/3;
+  }
+`;
+
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 export const MovieScreen = ({ match }) => {
@@ -82,7 +95,7 @@ export const MovieScreen = ({ match }) => {
       notifySuccess('Movie fetched successfully.');
       setHasFetched(true);
       setMovieData(movieRes.data);
-      // console.log('fetched: ', movieRes);
+      console.log('fetched: ', movieRes);
     };
     fetchMovie();
   }, [movieId]);
@@ -189,6 +202,12 @@ export const MovieScreen = ({ match }) => {
             height='100%'
           />
         </VideoDiv>
+        <ReviewsContainer>
+          <MovieRatingCard />
+          <MovieRatingCard />
+          <MovieRatingCard />
+          <MovieRatingCard />
+        </ReviewsContainer>
         <Loader isHidden={hasFetched} width='100px' height='100px' />
       </MovieDiv>
     </Layout>
