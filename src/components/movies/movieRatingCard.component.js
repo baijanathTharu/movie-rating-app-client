@@ -87,7 +87,7 @@ export const MovieRatingCard = ({
           <StarRatings
             rating={ratingPoint}
             starRatedColor='orangered'
-            numberOfStars={ratingPoint}
+            numberOfStars={5}
             name='rating'
             starDimension='30px'
             starEmptyColor='rgba(0,0,0, 0.1)'

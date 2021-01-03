@@ -10,6 +10,7 @@ import { Loader } from '../components/ui/loader.component';
 import dayjs from 'dayjs';
 import StarRatings from 'react-star-ratings';
 import { MovieRatingCard } from '../components/movies/movieRatingCard.component';
+import { MovieRatingForm } from '../components/movies/movieRatingForm.component';
 
 const MovieDiv = styled.div`
   display: grid;
@@ -80,6 +81,22 @@ const ReviewsContainer = styled.div`
   @media (min-width: 768px) {
     grid-column: 1/3;
   }
+  @media (min-width: 1024px) {
+    width: 50%;
+  }
+`;
+
+const ReviewForm = styled.div`
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 768px) {
+    grid-column: 1/3;
+  }
+  @media (min-width: 1024px) {
+    width: 50%;
+  }
 `;
 
 const IMG_URL = process.env.REACT_APP_IMG_URL;
@@ -136,7 +153,7 @@ export const MovieScreen = ({ match }) => {
     movieData.data[0].ratings.map(({ message, point, user }, id) => {
       return (
         <MovieRatingCard
-          key='id'
+          key={id}
           imageName={null}
           userId={user}
           ratingPoint={point}
@@ -224,6 +241,9 @@ export const MovieScreen = ({ match }) => {
             height='100%'
           />
         </VideoDiv>
+        <ReviewForm>
+          <MovieRatingForm />
+        </ReviewForm>
         <ReviewsContainer>
           <H3>REVIEWS</H3>
           {Reviews}
