@@ -2,6 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { Loader } from '../ui/loader.component';
+import { handleError } from '../../utils/handleError';
+import { PUT } from '../../utils/httpClient';
 
 const RatingForm = styled.form`
   width: 100%;
@@ -48,7 +50,7 @@ const ErrSpan = styled.span`
   margin-left: 10px;
 `;
 
-export const MovieRatingForm = () => {
+export const MovieRatingForm = ({ movieId }) => {
   const [moviePoint, setMoviePoint] = useState(0);
   const [formData, setFormData] = useState({});
   const [formErr, setFormErr] = useState({});
@@ -64,6 +66,15 @@ export const MovieRatingForm = () => {
     setFormData({ ...formData, point: point });
   };
 
+  const addReview = async (movieId, reviewData) => {
+    const [reviewErr, reviewRes] = await handleError(
+      PUT(`/rate/${movieId}`, reviewData, {}, true)
+    );
+    if (reviewErr) return setFormErr({ submitErr: 'Failed to submit review!' });
+    console.log('reviewRes: ', reviewRes);
+    return reviewRes;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const err = {};
@@ -75,7 +86,8 @@ export const MovieRatingForm = () => {
     }
     if (err.message || err.point) return setFormErr({ ...err });
     setIsSubmitting(true);
-    console.log('formData: ', formData);
+    addReview(movieId, formData);
+    // console.log('formData: ', formData);
   };
 
   const messageErr = formErr && formErr.message && (

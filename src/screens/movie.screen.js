@@ -242,7 +242,7 @@ export const MovieScreen = ({ match }) => {
           />
         </VideoDiv>
         <ReviewForm>
-          <MovieRatingForm />
+          <MovieRatingForm movieId={movieId} />
         </ReviewForm>
         <ReviewsContainer>
           <H3>REVIEWS</H3>
