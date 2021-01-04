@@ -116,6 +116,8 @@ export const Header = ({
 
   const logOutHandler = () => {
     userContext.setUserState({});
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
     history.push('/');
   };
 

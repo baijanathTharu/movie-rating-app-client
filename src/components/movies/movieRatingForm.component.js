@@ -70,8 +70,13 @@ export const MovieRatingForm = ({ movieId }) => {
     const [reviewErr, reviewRes] = await handleError(
       PUT(`/rate/${movieId}`, reviewData, {}, true)
     );
-    if (reviewErr) return setFormErr({ submitErr: 'Failed to submit review!' });
+    if (reviewErr) {
+      console.log('err: ', { reviewErr });
+      setIsSubmitting(false);
+      return setFormErr({ submitErr: 'Failed to submit review!' });
+    }
     console.log('reviewRes: ', reviewRes);
+    setIsSubmitting(false);
     return reviewRes;
   };
 
@@ -98,9 +103,13 @@ export const MovieRatingForm = ({ movieId }) => {
     <ErrSpan>{formErr.point}</ErrSpan>
   );
 
+  const submitErr = formErr && formErr.submitErr && (
+    <ErrSpan>{formErr.submitErr}</ErrSpan>
+  );
+
   return (
     <RatingForm type='sumbit' onSubmit={handleSubmit}>
-      <H2>Add Your Review</H2>
+      <H2>Add Your Review {submitErr}</H2>
       <FormItem>
         <Label>Review {messageErr}</Label>
         <ReviewText
