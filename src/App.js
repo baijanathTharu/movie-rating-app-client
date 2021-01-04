@@ -4,6 +4,7 @@ import { UserContext } from './context';
 import { HomeScreen, MoviesScreen, RegisterScreen } from './screens';
 import { DashboardScreen } from './screens';
 import { MovieScreen } from './screens';
+import { ReviewsContextProvider } from './store/reviews.store';
 
 const ProtectedRoute = ({ component: Component, user, ...rest }) =>
   user ? (
@@ -27,38 +28,40 @@ const App = () => {
 
   return (
     <UserContext.Provider value={{ userState: user, setUserState: setUser }}>
-      <BrowserRouter>
-        <Switch>
-          <UltraProtectedRoute
-            user={user}
-            path='/dashboard'
-            component={DashboardScreen}
-          />
-          <Route path='/movies/:movieId' component={MovieScreen} />
-          <Route path='/movies' component={MoviesScreen} />
-          <Route
-            path='/register'
-            render={(props) =>
-              user && user.username ? (
-                <Redirect to={{ pathname: '/movies' }} />
-              ) : (
-                <RegisterScreen {...props} />
-              )
-            }
-          />
-          <Route
-            path='/'
-            exact
-            render={(props) =>
-              user && user.username ? (
-                <Redirect to={{ pathname: '/movies' }} />
-              ) : (
-                <HomeScreen {...props} />
-              )
-            }
-          />
-        </Switch>
-      </BrowserRouter>
+      <ReviewsContextProvider>
+        <BrowserRouter>
+          <Switch>
+            <UltraProtectedRoute
+              user={user}
+              path='/dashboard'
+              component={DashboardScreen}
+            />
+            <Route path='/movies/:movieId' component={MovieScreen} />
+            <Route path='/movies' component={MoviesScreen} />
+            <Route
+              path='/register'
+              render={(props) =>
+                user && user.username ? (
+                  <Redirect to={{ pathname: '/movies' }} />
+                ) : (
+                  <RegisterScreen {...props} />
+                )
+              }
+            />
+            <Route
+              path='/'
+              exact
+              render={(props) =>
+                user && user.username ? (
+                  <Redirect to={{ pathname: '/movies' }} />
+                ) : (
+                  <HomeScreen {...props} />
+                )
+              }
+            />
+          </Switch>
+        </BrowserRouter>
+      </ReviewsContextProvider>
     </UserContext.Provider>
   );
 };

@@ -11,6 +11,7 @@ import dayjs from 'dayjs';
 import StarRatings from 'react-star-ratings';
 import { MovieRatingCard } from '../components/movies/movieRatingCard.component';
 import { MovieRatingForm } from '../components/movies/movieRatingForm.component';
+import { ReviewsContext, ReviewsContextProvider } from '../store/reviews.store';
 
 const MovieDiv = styled.div`
   display: grid;
@@ -108,6 +109,7 @@ export const MovieScreen = ({ match }) => {
   const userContext = useContext(UserContext);
   const [movieData, setMovieData] = useState({});
   const [hasFetched, setHasFetched] = useState(false);
+  const [reviewState, reviewDispatch] = useContext(ReviewsContext);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -120,6 +122,11 @@ export const MovieScreen = ({ match }) => {
       notifySuccess('Movie fetched successfully.');
       setHasFetched(true);
       setMovieData(movieRes.data);
+      // console.log('res: ', movieRes.data);
+      reviewDispatch({
+        type: 'ADD_REVIEW',
+        payload: movieRes.data && movieRes.data.data[0].ratings,
+      });
     };
     fetchMovie();
   }, [movieId]);
@@ -147,20 +154,17 @@ export const MovieScreen = ({ match }) => {
     ? ratingValArr.reduce((prev, curr) => prev + curr, 0) / ratingValArr.length
     : 0;
 
-  const Reviews =
-    movieData &&
-    movieData.data &&
-    movieData.data[0].ratings.map(({ message, point, user }, id) => {
-      return (
-        <MovieRatingCard
-          key={id}
-          imageName={null}
-          userId={user}
-          ratingPoint={point}
-          comment={message}
-        />
-      );
-    });
+  const Reviews = reviewState.reviews.map(({ message, point, user }, id) => {
+    return (
+      <MovieRatingCard
+        key={id}
+        imageName={null}
+        userId={user}
+        ratingPoint={point}
+        comment={message}
+      />
+    );
+  });
 
   return (
     <Layout>

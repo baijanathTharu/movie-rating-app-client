@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
 import { Loader } from '../ui/loader.component';
 import { handleError } from '../../utils/handleError';
 import { PUT } from '../../utils/httpClient';
+import { ReviewsContext } from '../../store/reviews.store';
 
 const RatingForm = styled.form`
   width: 100%;
@@ -55,6 +56,7 @@ export const MovieRatingForm = ({ movieId }) => {
   const [formData, setFormData] = useState({});
   const [formErr, setFormErr] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reviewState, reviewDispatch] = useContext(ReviewsContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,13 +73,18 @@ export const MovieRatingForm = ({ movieId }) => {
       PUT(`/rate/${movieId}`, reviewData, {}, true)
     );
     if (reviewErr) {
-      console.log('err: ', { reviewErr });
+      // console.log('err: ', { reviewErr });
       setIsSubmitting(false);
+      // TODO:: Show appropriate error if user is not logged in
       return setFormErr({ submitErr: 'Failed to submit review!' });
     }
     console.log('reviewRes: ', reviewRes);
     setIsSubmitting(false);
-    return reviewRes;
+    // TODO:: dispatch action to set reviews
+    reviewDispatch({
+      type: 'ADD_REVIEW',
+      payload: reviewRes.data.ratings,
+    });
   };
 
   const handleSubmit = (e) => {
