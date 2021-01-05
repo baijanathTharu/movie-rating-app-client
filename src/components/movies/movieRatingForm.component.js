@@ -80,7 +80,6 @@ export const MovieRatingForm = ({ movieId }) => {
     }
     console.log('reviewRes: ', reviewRes);
     setIsSubmitting(false);
-    // TODO:: dispatch action to set reviews
     reviewDispatch({
       type: 'ADD_REVIEW',
       payload: reviewRes.data.ratings,

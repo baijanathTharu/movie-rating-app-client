@@ -51,8 +51,8 @@ export const RegisterForm = () => {
       return notifyError(JSON.stringify(regError.response.data.error.message));
     }
     if (res) {
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.role || '1');
+      sessionStorage.setItem('token', res.data.token);
+      sessionStorage.setItem('role', res.data.role || '1');
       notifySuccess('registration success');
       userContext.setUserState(res.data);
       history.push('/');

@@ -108,22 +108,33 @@ export const Header = ({
 
   const navListWhenNotLoggedIn = navLinksWhenNotLoggedIn.map(
     ({ path, name }, idx) =>
-      userContext.userState.username ? null : generateListItem(path, name, idx)
+      userContext.userState.username ||
+      sessionStorage.getItem('token') ||
+      sessionStorage.getItem('role')
+        ? null
+        : generateListItem(path, name, idx)
   );
   const navListWhenLoggedIn = navLinksWhenLoggedIn.map(({ path, name }, idx) =>
-    userContext.userState.username ? generateListItem(path, name, idx) : null
+    userContext.userState.username ||
+    sessionStorage.getItem('token') ||
+    sessionStorage.getItem('role')
+      ? generateListItem(path, name, idx)
+      : null
   );
 
   const logOutHandler = () => {
     userContext.setUserState({});
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
     history.push('/');
   };
 
-  const LogOutBtn = userContext.userState.username ? (
-    <Button onClick={logOutHandler}>LogOut</Button>
-  ) : null;
+  const LogOutBtn =
+    userContext.userState.username ||
+    sessionStorage.getItem('token') ||
+    sessionStorage.getItem('role') ? (
+      <Button onClick={logOutHandler}>LogOut</Button>
+    ) : null;
 
   const DashboardLink =
     userContext.userState.username && userContext.userState.role === 0 ? (

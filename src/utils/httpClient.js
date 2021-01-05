@@ -10,7 +10,7 @@ const getHeaders = (isSecured) => {
     'Content-Type': 'application/json',
   };
   if (!isSecured) return headers;
-  headers['authorization'] = localStorage.getItem('token');
+  headers['authorization'] = sessionStorage.getItem('token');
   return headers;
 };
 

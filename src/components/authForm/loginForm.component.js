@@ -70,8 +70,9 @@ export const LoginForm = () => {
       notifyError(JSON.stringify(loginError.response.data.error.message));
     }
     if (res) {
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.user.role || '1');
+      sessionStorage.setItem('token', res.data.token);
+      sessionStorage.setItem('role', res.data.user.role || '1');
+      sessionStorage.setItem('userId', res.data.user._id);
       notifySuccess('Login success');
       userContext.setUserState(res.data.user);
       return history.push('/movies');
