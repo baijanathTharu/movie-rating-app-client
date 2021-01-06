@@ -84,9 +84,9 @@ export const MoviesScreen = () => {
     <Layout>
       <MovieContainer bgColor='wheat'>
         <Loader
-          isHidden={hasFetched}
-          width='200px'
-          height='200px'
+          isHidden={!hasFetched}
+          width='50px'
+          height='50px'
           position='absolute'
           top='50%'
           left='50%'

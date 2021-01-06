@@ -20,11 +20,11 @@ const LoaderDiv = styled.div`
   height: ${(props) => props.height};
   width: ${(props) => props.width};
   border-radius: 50%;
-  border-top: 10px solid black;
-  border-left: 10px solid wheat;
-  border-right: 10px solid wheat;
-  border-bottom: 10px solid black;
-  animation: ${Rotate} 1s infinite;
+  border-top: 5px solid tomato;
+  border-left: 5px solid tomato;
+  border-right: 5px solid tomato;
+  border-bottom: 5px solid black;
+  animation: ${Rotate} 0.7s infinite;
   display: ${(props) => (props.isHidden ? 'none' : 'inline-block')};
   position: ${(props) => props.position};
   left: ${(props) => props.left};
