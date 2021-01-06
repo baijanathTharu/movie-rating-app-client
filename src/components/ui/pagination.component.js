@@ -9,11 +9,15 @@ const Div = styled.div`
 `;
 
 const DivItems = styled.div`
-  background-color: ${(props) => (props.isActive ? 'orangered' : 'wheat')};
+  background-color: ${(props) => (props.isActive ? 'orangered' : 'tomato')};
   color: black;
   padding: 15px;
   font-size: 16px;
-  cursor: pointer;
+  :hover {
+    background-color: ${(props) => (props.isActive ? 'orangered' : 'black')};
+    color: ${(props) => (props.isActive ? 'black' : 'wheat')};
+    cursor: ${(props) => (props.isActive ? 'not-allowed' : 'pointer')};
+  }
 `;
 
 export const Pagination = ({ currentPage, totalPage, fetchPage }) => {
