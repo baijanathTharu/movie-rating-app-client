@@ -62,14 +62,14 @@ const Span = styled.span`
 export const MovieCard = ({
   width,
   movieName,
-  movieImage,
+  imageUrl,
   movieDescription,
   triggerPopUp,
   triggerConfirmDeletePopUp,
   hasAdminOptions = true,
 }) => {
-  const imageSrc = movieImage
-    ? `${IMG_URL}/${movieImage}`
+  const imageSrc = imageUrl
+    ? imageUrl
     : `https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg`;
 
   const adminActions = hasAdminOptions ? (

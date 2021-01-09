@@ -73,7 +73,7 @@ export const MoviesScreen = () => {
             width='50%'
             hasAdminOptions={false}
             movieName={movie.title}
-            movieImage={movie.images}
+            imageUrl={movie.imageUrl}
             movieDescription={movie.description}
           />
         </Link>

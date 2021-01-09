@@ -154,7 +154,7 @@ export const DashboardScreen = () => {
         key={idx}
         width='250px'
         movieName={movie.title}
-        movieImage={movie.images[0]}
+        imageUrl={movie.imageUrl}
         movieDescription={movie.description}
         movieGenre={movie.genre}
         triggerPopUp={() =>

@@ -132,8 +132,8 @@ export const MovieScreen = ({ match }) => {
   }, [movieId]);
 
   const imageSrc =
-    movieData.data && movieData.data[0].images
-      ? `${IMG_URL}/${movieData.data[0].images}`
+    movieData.data && movieData.data[0].imageUrl
+      ? movieData.data[0].imageUrl
       : `https://hesolutions.com.pk/wp-content/uploads/2019/01/picture-not-available.jpg`;
 
   const convertArrayToString = (arr) => {
